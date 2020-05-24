@@ -202,10 +202,10 @@
 
 //[[Environment]] : Global
 // const fnA = function () {
-    //fnA env
-    // Parent: Global
-    // console.log(a);
-    
+//fnA env
+// Parent: Global
+// console.log(a);
+
 // };
 
 // Global
@@ -214,14 +214,14 @@
 
 //[[Environment]] : Global
 // const outerFn = function () {
-    //outerFn env
-    // Parent: Global
-	// const a = 5;
-    //outerFn env
-    // Parent: Global
-    // a: 5
+//outerFn env
+// Parent: Global
+// const a = 5;
+//outerFn env
+// Parent: Global
+// a: 5
 
-	// fnA();
+// fnA();
 // };
 // Global
 // Parent: null
@@ -229,6 +229,237 @@
 
 // outerFn();
 
-
 //!====================THIS========================
+// use strict - undefined, not use strict - window
+// const fn = function () {
+// 	console.log(this);
+// };
 
+// fn();
+
+//this определяется не методом объявления а методом вызова (когда у метода кто-то есть слева до точки)
+// const showLabel = function () {
+// 	console.log(this);
+// 	console.log(this.label);
+// };
+
+// const printLabel = function (callback) {
+// 	const label = callback();
+
+// 	console.log(`Product label: ${label}`);
+// };
+//==========================================================
+// const product = {
+// 	label: 'Adidas',
+// 	showLabel() {
+// 		console.log(this);
+// 		console.log(this.label);
+// 	},
+// };
+
+// product.showLabel = showLabel;
+// product.showLabel();
+
+// printLabel(product.showLabel);
+
+// В обычных функциях this определяется тем, как она была вызвана (кто ее вызывает)
+// В стрелочных функциях this определяется тем, где она была объявлена (лексический контекст)
+
+// Если объявлена в глобальной области видимости - будет window
+// const showLabel = () => {
+// 	console.log(this);
+// 	console.log(this.label);
+// };
+
+// const product = {
+// 	label: 'Adidas',
+// 	// this будет взята с глобальной области (window) в которой создан объект
+// 	showLabel: () => {
+// 		console.log(this);
+// 		console.log(this.label);
+
+// 		// const fn = function () {
+// 		// console.log(this);
+// 		// };
+// 		// будет undefined, т.к. функция была никем не вызвана
+// 		// fn();
+
+// 		//this будет данный объект, т.к. она создана в области видимости функции (родительский контекст которого это объект)
+// 		const fn = () => {
+// 			console.log(this);
+// 		};
+// 		fn();
+// 	},
+// };
+// Даже после присвоения ссылки на функцию к методу объекта, то this все равно будет window
+// product.showLabel = showLabel;
+// product.showLabel();
+
+//==========================================================
+// const sell = function (product, price) {
+// 	console.log(`Manager ${this.name} sold ${product} for ${price}`);
+// 	this.sales += 1;
+// };
+
+// const mango = {
+// 	name: 'Mango',
+// 	sales: 10,
+// };
+
+// const poly = {
+// 	name: 'Poly',
+// 	sales: 20,
+// };
+// mango.sell('TV');
+// poly.sell('GPU');
+
+// sell.call(mango, 'TV', 50);
+// sell.call(poly, 'GPU', 100);
+
+// sell.apply(mango, ['GPU', 50]);
+// sell.apply(poly, ['GPU', 100]);
+
+// const product = {
+// 	label: 'Adidas',
+
+// 	showLabel() {
+// 		console.log(this);
+// 		console.log(this.label);
+
+// 		return this.label;
+// 	},
+// };
+
+// const printLabel = function (callback) {
+// 	const label = callback();
+
+// 	console.log(`Product label: ${label}`);
+// };
+
+// const boundShowLabel = product.showLabel.bind(product);
+// // boundShowLabel();
+
+// printLabel(boundShowLabel);
+//==========================================================
+
+//================== Constructor===================
+
+// const Manager = function (name, sales = 0) {
+// 	// this = {}
+
+// 	this.name = name;
+// 	this.sales = sales;
+
+// 	this.sell = function (product, price) {
+// 		console.log(`Manager ${this.name} sold ${product} for ${price}`);
+// 		this.sales += 1;
+// 	};
+
+// 	// return this;
+// };
+// new = оператор, который вызывает функцию конструктор и создает новый экземпляр объекта
+// const mango = new Manager('Mango', 5);
+// console.log(mango);
+// mango.sell('TV', 50);
+
+// const poly = new Manager('Poly', 10);
+// console.log(poly);
+// poly.sell('GPU', 100);
+
+//==========================================================
+
+// const bark = function () {
+// 	console.log(this);
+// };
+
+// bark(); // - будет undefined / window - without use strict
+//==========================================================
+// const makeSound = function () {
+// 	console.log(this.sound);
+// };
+
+// const dog = {
+// 	sound: 'woof',
+// };
+// //функция присвоена как метод объекта дог
+// dog.bark = makeSound;
+// dog.bark(); // = будет woof, т.к. метод вызван в контексте объекта (дог)
+//==========================================================
+// const makeSound = function () {
+// 	console.log(this.sound);
+// };
+
+// const dog = {
+// 	sound: 'woof',
+// };
+
+// dog.bark = makeSound;
+
+// const fn = function (callback) {
+// 	callback();
+// };
+
+// fn(dog.bark); // - будет ошибка - нету метода bark в undefined (TypeError)
+//  fn(dog.bark.bind(dog)) // - передаем копию функции через бинд (если используется контекст)
+//==========================================================
+
+// const makeSound = () => {
+// 	console.log(this);
+// };
+
+// makeSound(); // - this будет window, она игнорирует строгий режим
+//==========================================================
+
+// const makeSound = () => {
+// 	console.log(this);
+// };
+
+// const dog = {
+// 	sound: 'woof',
+// };
+
+// dog.bark = makeSound;
+
+// dog.bark(); // this будет window, т.к. стрелка объявлена в глобальной области
+//==========================================================
+// const makeSound = () => {
+// 	console.log(this);
+// };
+
+// const dog = {
+// 	sound: 'woof',
+// };
+
+// dog.bark = makeSound;
+
+// makeSound.call(dog); // this будет window
+//==========================================================
+// const makeSound = () => {
+// 	console.log(this);
+// };
+
+// const dog = {
+// 	sound: 'woof',
+// };
+
+// dog.bark = makeSound;
+// makeSound.call(dog);
+
+// const bound = makeSound.bind(dog);
+// bound(); // this будет window
+//==========================================================
+
+// const dog = {
+// 	sound: 'woof',
+
+// 	fn() {
+// 		const makeSound = () => {
+// 			console.log(this);
+// 		};
+
+// 		return makeSound;
+// 	},
+// };
+
+// const makeSound = dog.fn();
+// makeSound(); // this будет dog т.к. стрелка объявлена в области видимости функции fn у которой родитель - объект, т.е. this будет dog
