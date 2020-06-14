@@ -1,0 +1,24 @@
+@value red-color from '../../vars.module.css';
+@value green-color from '../../vars.module.css';
+
+/* .container {
+	outline: 1px solid #212121;
+} */
+
+.name {
+	font-weight: 500;
+}
+
+.quantity {
+	font-weight: 500;
+}
+
+.available {
+	composes: quantity;
+	color: green-color;
+}
+
+.notAvailable {
+	composes: quantity;
+	color: red-color;
+}

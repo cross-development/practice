@@ -1,10 +1,27 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
-export default function Section({ title, children }) {
+const Container = styled.section`
+	box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+		0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+`;
+
+function Section({ title, children }) {
 	return (
-		<section>
-			<h2>{title}</h2>
+		<Container>
+			{title && <h2>{title}</h2>}
 			{children}
-		</section>
+		</Container>
 	);
 }
+
+Section.defaultProps = {
+	title: '',
+};
+
+Section.propTypes = {
+	title: PropTypes.string,
+};
+
+export default Section;
