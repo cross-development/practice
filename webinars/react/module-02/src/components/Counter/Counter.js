@@ -1,7 +1,16 @@
+//Core
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+//Components
+import CounterControls from '../CounterControls/CounterControls';
+//Styles
+import styles from './Counter.module.css';
 
 export default class Counter extends Component {
-	static propTypes = {};
+	static propTypes = {
+		initialValue: PropTypes.number,
+		step: PropTypes.number,
+	};
 
 	static defaultProps = {
 		initialValue: 0,
@@ -52,17 +61,9 @@ export default class Counter extends Component {
 
 	render() {
 		return (
-			<div>
-				<button type="increment" onClick={this.handleIncrement}>
-					{/* <button type="increment" onClick={this.handleIncrement}> - плохо. bind создает копию функции, тормозит приложение */}
-					Increment
-				</button>
-
-				<span>{this.state.value}</span>
-
-				<button type="decrement" onClick={this.handleDecrement}>
-					Decrement
-				</button>
+			<div className={styles.counterWrapper}>
+				<CounterControls onIncrement={this.handleIncrement} onDecrement={this.handleDecrement} />
+				<span className={styles.counterValue}>{this.state.value}</span>
 			</div>
 		);
 	}
