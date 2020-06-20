@@ -4,11 +4,14 @@ import PropTypes from 'prop-types';
 //Style
 import styles from './TaskListItem.module.css';
 
-const TaskListItem = ({ text, onRemove }) => {
+const TaskListItem = ({ text, completed, onRemove, onUpdate }) => {
 	return (
-		<li className={styles.taskListItem}>
+		<li className={!completed ? styles.taskListItem : styles.completed}>
 			<p className={styles.taskListText}>{text}</p>
-
+			<label className={styles.taskListCheckboxLabel}>
+				<input type="checkbox" checked={completed} onChange={onUpdate} />
+				Done
+			</label>
 			<section className={styles.taskListAction}>
 				<button type="button" className={styles.taskListButton} onClick={onRemove}>
 					Delete

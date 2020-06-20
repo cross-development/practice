@@ -5,16 +5,26 @@ import Layout from './Layout/Layout';
 import Counter from './Counter/Counter';
 import TaskList from './TaskList/TaskList';
 import TaskEditor from './TaskEditor/TaskEditor';
+import SignupForm from './SignupForm/SignupForm';
+import TaskFilter from './TaskFilter/TaskFilter';
 //Utils
-import createTask from '../utils/create-task';
+import { uuid } from 'uuidv4';
+// import createTask from '../utils/create-task';
 
 class App extends Component {
 	state = {
 		tasks: [],
+		filter: '',
+		// firstName: 'Mango',
+		// lastName: 'ZeDog',
 	};
 
-	addTask = () => {
-		const task = createTask();
+	addTask = text => {
+		const task = {
+			id: uuid(),
+			text,
+			completed: false,
+		};
 
 		this.setState(prevState => {
 			return {
@@ -31,8 +41,53 @@ class App extends Component {
 		});
 	};
 
+	// handleUpdateCompleted = taskId => {
+	// 	this.setState(prevState => {
+	// 		return {
+	// 			tasks: prevState.tasks.map(task => {
+	// 				if (task.id === taskId) {
+	// 					return {
+	// 						...task,
+	// 						completed: !task.completed,
+	// 					};
+	// 				}
+
+	// 				return task;
+	// 			}),
+	// 		};
+	// 	});
+	// };
+
+	handleUpdateCompleted = taskId => {
+		this.setState(prevState => ({
+			tasks: prevState.tasks.map(task =>
+				task.id === taskId ? { ...task, completed: !task.completed } : task,
+			),
+		}));
+	};
+
+	handleChangeFilter = filter => {
+		this.setState({ filter });
+	};
+
+	getVisibleTasks = () => {
+		const { tasks, filter } = this.state;
+
+		return tasks.filter(task => task.text.toLowerCase().includes(filter.toLowerCase()));
+
+		//Плохо, т.к. при фильтре перезаписывает стейт и удаляется часть массива (фильтр возвращает новый масив без "фильтруемого элемента")
+		// this.setState(prevState => ({
+		// 	tasks: prevState.tasks.filter(task =>
+		// 		task.text.toLowerCase().includes(prevState.filter.toLowerCase()),
+		// 	),
+		// }));
+	};
+
 	render() {
-		const { tasks } = this.state;
+		const { tasks, filter } = this.state;
+		// const fullName = `${this.state.firstName} ${this.state.lastName}`;
+
+		const visibleTask = this.getVisibleTasks();
 
 		return (
 			<Layout>
@@ -40,8 +95,21 @@ class App extends Component {
 
 				<hr />
 
+				{/* <h1>{fullName}</h1> */}
 				<TaskEditor onAddTask={this.addTask} />
-				{tasks.length > 0 && <TaskList tasks={tasks} onRemoveTask={this.removeTask} />}
+				{tasks.length > 1 && <TaskFilter value={filter} onChangeFilter={this.handleChangeFilter} />}
+
+				{tasks.length > 0 && (
+					<TaskList
+						tasks={visibleTask}
+						onRemoveTask={this.removeTask}
+						onUpdateTask={this.handleUpdateCompleted}
+					/>
+				)}
+
+				<hr />
+
+				<SignupForm />
 			</Layout>
 		);
 	}

@@ -11,8 +11,13 @@
 	margin-top: 12px;
 }
 
+.completed {
+	composes: taskListItem;
+	background-color: green;
+}
+
 .taskListText {
-	flex: 0 0 85%;
+	flex: 0 0 70%;
 	margin-top: 0;
 	margin-bottom: 0;
 	margin-right: 16px;
@@ -22,10 +27,20 @@
 .taskListAction {
 	display: flex;
 	justify-content: center;
-	flex-grow: 1;
+	/* flex-grow: 1; */
 }
 
 .taskListButton {
 	margin-right: 4px;
 	margin-left: 4px;
+}
+
+.taskListCheckboxLabel {
+	text-transform: uppercase;
+	margin-right: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: inherit;
+	line-height: 22px;
 }

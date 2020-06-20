@@ -6,11 +6,17 @@ import TaskListItem from '../TaskListItem/TaskListItem';
 //Styles
 import styles from './TaskList.module.css';
 
-const TaskList = ({ tasks, onRemoveTask }) => {
+const TaskList = ({ tasks, onRemoveTask, onUpdateTask }) => {
 	return (
 		<ul className={styles.taskList}>
-			{tasks.map(({ id, text }) => (
-				<TaskListItem key={id} text={text} onRemove={() => onRemoveTask(id)} />
+			{tasks.map(({ id, text, completed }) => (
+				<TaskListItem
+					key={id}
+					text={text}
+					completed={completed}
+					onRemove={() => onRemoveTask(id)}
+					onUpdate={() => onUpdateTask(id)}
+				/>
 			))}
 		</ul>
 	);
