@@ -1,0 +1,22 @@
+.backdrop {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal {
+	margin: 15px auto 0;
+	padding: 10px;
+	background: #fff;
+	border-radius: 5px;
+	width: 40%;
+	height: 50%;
+    position: relative;
+    
+}
