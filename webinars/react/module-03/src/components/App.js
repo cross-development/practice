@@ -4,7 +4,10 @@ import React, { Component } from 'react';
 import Layout from './Layout/Layout';
 // import Tasks from './Tasks/Tasks';
 // import Modal from './Modal/Modal';
-import Clock from './Clock/Clock'
+// import Clock from './Clock/Clock';
+import Tabs from './Tabs/Tabs';
+//JSON
+import tabs from '../tabs.json';
 
 export class App extends Component {
 	state = {
@@ -20,7 +23,14 @@ export class App extends Component {
 
 		return (
 			<Layout>
-				<Clock />
+				<Tabs items={tabs} />
+
+				{/* <div>
+					<button type="button" onClick={this.toggleModal}>
+						{showModal ? 'Hide' : 'Show'} clock
+					</button>
+					{showModal && <Clock />}
+				</div> */}
 				{/* <Tasks /> */}
 
 				{/* <button type="button" onClick={this.toggleModal}>
