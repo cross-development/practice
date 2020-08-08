@@ -1,8 +1,7 @@
 import { uuid } from 'uuidv4';
-import actionTypes from './tasksActionTypes';
+import { createAction } from '@reduxjs/toolkit';
 
-const addTask = text => ({
-	type: actionTypes.ADD,
+const addTask = createAction('tasks/add', text => ({
 	payload: {
 		task: {
 			id: uuid(),
@@ -10,28 +9,11 @@ const addTask = text => ({
 			completed: false,
 		},
 	},
-});
+}));
 
-const removeTask = taskId => ({
-	type: actionTypes.REMOVE,
-	payload: {
-		taskId,
-	},
-});
-
-const toggleCompleted = taskId => ({
-	type: actionTypes.TOGGLE_COMPLETED,
-	payload: {
-		taskId,
-	},
-});
-
-const changeFilter = filter => ({
-	type: actionTypes.CHANGE_FILTER,
-	payload: {
-		filter,
-	},
-});
+const removeTask = createAction('tasks/remove');
+const toggleCompleted = createAction('tasks/toggleCompleted');
+const changeFilter = createAction('tasks/changeFilter');
 
 export default {
 	addTask,

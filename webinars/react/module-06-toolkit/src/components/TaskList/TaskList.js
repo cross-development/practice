@@ -3,22 +3,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 //Redux
 import { connect } from 'react-redux';
-import tasksAction from '../../redux/tasks/tasksActions';
 //Components
 import TaskListItem from '../TaskListItem';
 //Styles
 import styles from './TaskList.module.css';
 
-const TaskList = ({ tasks, onRemoveTask, onToggleCompleted }) => (
+const TaskList = ({ tasks }) => (
 	<ul className={styles.taskList}>
-		{tasks.map(({ id, text, completed }) => (
-			<TaskListItem
-				key={id}
-				text={text}
-				completed={completed}
-				onRemove={() => onRemoveTask(id)}
-				onUpdate={() => onToggleCompleted(id)}
-			/>
+		{tasks.map(({ id }) => (
+			<TaskListItem key={id} id={id} />
 		))}
 	</ul>
 );
@@ -36,15 +29,9 @@ TaskList.propTypes = {
 const mapStateToProps = state => {
 	const { items, filter } = state.tasks;
 	const normalizedFilter = filter.toLowerCase();
+	const visibleTasks = items.filter(({ text }) => text.toLowerCase().includes(normalizedFilter));
 
-	return {
-		tasks: items.filter(({ text }) => text.toLowerCase().includes(normalizedFilter)),
-	};
+	return { tasks: visibleTasks };
 };
 
-const mapDispatchToProps = {
-	onRemoveTask: tasksAction.removeTask,
-	onToggleCompleted: tasksAction.toggleCompleted,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(TaskList);
+export default connect(mapStateToProps)(TaskList);

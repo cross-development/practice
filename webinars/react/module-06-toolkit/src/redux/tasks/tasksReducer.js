@@ -1,33 +1,17 @@
 import { combineReducers } from 'redux';
-import actionTypes from './tasksActionTypes';
+import { createReducer } from '@reduxjs/toolkit';
+import taskActions from './tasksActions';
+import handleReducer from './tasksHandleReducer';
 
-const items = (state = [], { type, payload }) => {
-	switch (type) {
-		case actionTypes.ADD:
-			return [...state, payload.task];
+const items = createReducer([], {
+	[taskActions.addTask]: handleReducer.onAddTask,
+	[taskActions.removeTask]: handleReducer.onRemoveTask,
+	[taskActions.toggleCompleted]: handleReducer.onToggleCompleted,
+});
 
-		case actionTypes.REMOVE:
-			return state.filter(task => task.id !== payload.taskId);
-
-		case actionTypes.TOGGLE_COMPLETED:
-			return state.map(task =>
-				task.id === payload.taskId ? { ...task, completed: !task.completed } : task,
-			);
-
-		default:
-			return state;
-	}
-};
-
-const filter = (state = '', { type, payload }) => {
-	switch (type) {
-		case actionTypes.CHANGE_FILTER:
-			return payload.filter;
-
-		default:
-			return state;
-	}
-};
+const filter = createReducer('', {
+	[taskActions.changeFilter]: handleReducer.onChangeFilter,
+});
 
 export default combineReducers({
 	items,
