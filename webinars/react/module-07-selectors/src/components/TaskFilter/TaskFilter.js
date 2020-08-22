@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 //Redux
 import { connect } from 'react-redux';
 import tasksActions from '../../redux/tasks/tasksActions';
+import tasksSelectors from '../../redux/tasks/tasksSelectors';
 //Styles
 import styles from './TaskFilter.module.css';
 
@@ -19,7 +20,7 @@ const TaskFilter = ({ value, onChangeFilter }) => (
 );
 
 const mapStateToProps = state => ({
-	value: state.tasks.filter,
+	value: tasksSelectors.getFilter(state),
 });
 
 const mapDispatchToProps = {
