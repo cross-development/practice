@@ -6,6 +6,7 @@ const store = configureStore({
 	reducer: {
 		tasks: tasksReducer,
 	},
+	// middleware: [...defaultMiddleware],
 });
 
 export default store;

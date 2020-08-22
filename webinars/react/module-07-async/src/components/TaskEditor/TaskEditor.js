@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 //Redux
 import { connect } from 'react-redux';
-import tasksActions from '../../redux/tasks/tasksActions';
+import tasksOperations from '../../redux/tasks/tasksOperations';
 //Styles
 import styles from './TaskEditor.module.css';
 
@@ -39,7 +39,7 @@ class TaskEditor extends Component {
 }
 
 const mapDispatchToProps = {
-	onAddTask: tasksActions.addTask,
+	onAddTask: tasksOperations.addTask,
 };
 
 // const mapDispatchToProps = dispatch => {

@@ -1,23 +1,47 @@
-import { uuid } from 'uuidv4';
 import { createAction } from '@reduxjs/toolkit';
 
-const addTask = createAction('tasks/add', text => ({
-	payload: {
-		task: {
-			id: uuid(),
-			text,
-			completed: false,
-		},
-	},
-}));
+const fetchTasksRequest = createAction('tasks/fetchRequest');
+const fetchTasksSuccess = createAction('tasks/fetchSuccess');
+const fetchTasksError = createAction('tasks/fetchError');
 
-const removeTask = createAction('tasks/remove');
-const toggleCompleted = createAction('tasks/toggleCompleted');
+const addTaskRequest = createAction('tasks/addRequest');
+const addTaskSuccess = createAction('tasks/addSuccess');
+const addTaskError = createAction('tasks/addError');
+
+const removeTaskRequest = createAction('tasks/removeRequest');
+const removeTaskSuccess = createAction('tasks/removeSuccess');
+const removeTaskError = createAction('tasks/removeError');
+
+const toggleCompletedRequest = createAction('tasks/toggleCompletedRequest');
+const toggleCompletedSuccess = createAction('tasks/toggleCompletedSuccess');
+const toggleCompletedError = createAction('tasks/toggleCompletedError');
+
 const changeFilter = createAction('tasks/changeFilter');
 
 export default {
-	addTask,
-	removeTask,
-	toggleCompleted,
+	fetchTasksRequest,
+	fetchTasksSuccess,
+	fetchTasksError,
+
+	addTaskRequest,
+	addTaskSuccess,
+	addTaskError,
+
+	removeTaskRequest,
+	removeTaskSuccess,
+	removeTaskError,
+
+	toggleCompletedRequest,
+	toggleCompletedSuccess,
+	toggleCompletedError,
+
 	changeFilter,
 };
+
+// const reduxThunk = store => next => action => {
+// 	if (typeof action === 'function') {
+// 		action(store.dispatch, store.getState);
+// 	}
+
+// 	next(action);
+// };

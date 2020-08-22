@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 //Redux
 import { connect } from 'react-redux';
-import tasksAction from '../../redux/tasks/tasksActions';
+import tasksOperations from '../../redux/tasks/tasksOperations';
 //Style
 import styles from './TaskListItem.module.css';
 
@@ -26,7 +26,7 @@ const TaskListItem = ({ text, completed, onRemove, onToggleCompleted }) => (
 
 TaskListItem.propTypes = {
 	text: PropTypes.string.isRequired,
-	completed: PropTypes.bool.isRequired,
+	// completed: PropTypes.bool.isRequired,
 	onRemove: PropTypes.func.isRequired,
 	onToggleCompleted: PropTypes.func.isRequired,
 };
@@ -38,8 +38,8 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-	onRemove: () => dispatch(tasksAction.removeTask(ownProps.id)),
-	onToggleCompleted: () => dispatch(tasksAction.toggleCompleted(ownProps.id)),
+	onRemove: () => dispatch(tasksOperations.removeTask(ownProps.id)),
+	onToggleCompleted: () => dispatch(tasksOperations.toggleCompleted(ownProps.id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskListItem);
