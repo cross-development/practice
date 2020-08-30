@@ -1,8 +1,11 @@
+//Core
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+//Components
 import TaskEditor from '../components/TaskEditor';
 import Filter from '../components/Filter';
 import TaskList from '../components/TaskList';
+//Redux
 import tasksOperations from '../redux/tasks/tasksOperations';
 import tasksSelectors from '../redux/tasks/tasksSelectors';
 
@@ -16,7 +19,7 @@ class TaskerView extends Component {
       <>
         <TaskEditor />
         {/* {this.props.isLoadingTasks && <h1>Doing HTTP stuff...</h1>} */}
-        {/* <Filter /> */}
+        <Filter />
         <TaskList />
       </>
     );

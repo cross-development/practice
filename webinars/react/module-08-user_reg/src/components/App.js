@@ -1,12 +1,12 @@
-/*
- * TODO: рефреш пользователя на didMount c getCurrentUser*
- */
-
+//Core
 import React, { Component, Suspense } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
+//Components
 import Layout from './Layout';
+//Router
 import routes from '../routes';
+//Redux
 import { authOperations } from '../redux/auth';
 
 class App extends Component {

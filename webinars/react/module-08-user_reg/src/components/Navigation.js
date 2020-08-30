@@ -1,9 +1,7 @@
-/*
- * TODO: публичные и приватные линки
- */
-
+//Core
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+//Router
 import routes from '../routes';
 
 const styles = {

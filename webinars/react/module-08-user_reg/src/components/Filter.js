@@ -1,5 +1,7 @@
+//Core
 import React from 'react';
 import { connect } from 'react-redux';
+//Redux
 import tasksActions from '../redux/tasks/tasksActions';
 import tasksSelectors from '../redux/tasks/tasksSelectors';
 

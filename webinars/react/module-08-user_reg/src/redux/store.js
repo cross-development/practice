@@ -1,6 +1,8 @@
+//Core
 import { configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+//Redux
 import tasksReducer from './tasks/tasksReducer';
 import authReducer from './auth/authReducer';
 

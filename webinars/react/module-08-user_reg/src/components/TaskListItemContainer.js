@@ -1,9 +1,12 @@
+//Core
 import { connect } from 'react-redux';
+//Components
 import TaskListItem from './TaskListItem';
+//Redux
 import tasksOperations from '../redux/tasks/tasksOperations';
 import tasksSelectors from '../redux/tasks/tasksSelectors';
 
-const mapState = (state, ownProps) => {
+const mapStateToProps = (state, ownProps) => {
   const task = tasksSelectors.getTaskById(state, ownProps.id);
 
   return {
@@ -16,4 +19,4 @@ const mapDispatchToProps = (dispatch, { id }) => ({
   onToggleCompleted: () => dispatch(tasksOperations.toggleCompleted(id)),
 });
 
-export default connect(mapState, mapDispatchToProps)(TaskListItem);
+export default connect(mapStateToProps, mapDispatchToProps)(TaskListItem);

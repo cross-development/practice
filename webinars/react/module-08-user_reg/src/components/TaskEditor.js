@@ -1,6 +1,9 @@
+//Core
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+//Redux
 import tasksOperations from '../redux/tasks/tasksOperations';
+//Style
 import './TaskEditor.css';
 
 class TaskEditor extends Component {
@@ -8,10 +11,8 @@ class TaskEditor extends Component {
     text: '',
   };
 
-  handleChange = e => {
-    this.setState({
-      text: e.target.value,
-    });
+  handleChange = ({ target: { value } }) => {
+    this.setState({ text: value });
   };
 
   handleSubmit = e => {

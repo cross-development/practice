@@ -1,5 +1,7 @@
+//Core
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+//Redux
 import { authOperations } from '../redux/auth';
 
 const styles = {
