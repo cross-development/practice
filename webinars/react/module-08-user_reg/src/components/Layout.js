@@ -1,6 +1,4 @@
-//Core
 import React from 'react';
-//Components
 import AppBar from './AppBar';
 
 const styles = {

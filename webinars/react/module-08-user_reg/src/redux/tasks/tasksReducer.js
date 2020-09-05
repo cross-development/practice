@@ -1,7 +1,5 @@
-//Core
 import { combineReducers } from 'redux';
 import { createReducer } from '@reduxjs/toolkit';
-//Redux
 import tasksActions from './tasksActions';
 
 const addTask = (state, action) => {

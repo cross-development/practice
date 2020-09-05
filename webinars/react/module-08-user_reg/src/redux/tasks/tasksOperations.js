@@ -1,9 +1,7 @@
-//Core
 import axios from 'axios';
-//Redux
 import tasksActions from './tasksActions';
 
-axios.defaults.baseURL = 'http://localhost:2000';
+// axios.defaults.baseURL = 'http://localhost:2000';
 
 const addTask = description => dispatch => {
   dispatch(tasksActions.addTaskRequest());

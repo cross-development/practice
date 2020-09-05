@@ -29,7 +29,7 @@ class LoginView extends Component {
     e.preventDefault();
 
     this.props.onLogin({ ...this.state });
-    this.setState({ name: '', email: '', password: '' });
+    this.setState({ email: '', password: '' });
   };
 
   render() {

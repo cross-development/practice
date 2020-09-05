@@ -1,4 +1,3 @@
-//Core
 import { createSelector } from '@reduxjs/toolkit';
 
 const getTasks = state => state.tasks.items;

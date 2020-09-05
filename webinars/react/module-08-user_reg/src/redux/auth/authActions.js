@@ -1,4 +1,3 @@
-//Core
 import { createAction } from '@reduxjs/toolkit';
 
 const registerRequest = createAction('auth/registerRequest');
