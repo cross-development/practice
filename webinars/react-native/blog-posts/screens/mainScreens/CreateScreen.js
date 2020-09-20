@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { Camera } from 'expo-camera';
+import * as MediaLibrary from 'expo-media-library';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import * as Location from 'expo-location';
 
 const CreateScreen = ({ navigation }) => {
 	const [hasPermission, setHasPermission] = useState(null);
+	const [type, setType] = useState(Camera.Constants.Type.back);
 	const [camera, setCamera] = useState(null);
 	const [photo, setPhoto] = useState(null);
 
 	useEffect(() => {
 		(async () => {
 			const { status } = await Camera.requestPermissionsAsync();
+			await MediaLibrary.requestPermissionsAsync();
+
 			setHasPermission(status === 'granted');
 		})();
 	}, []);
@@ -24,17 +29,26 @@ const CreateScreen = ({ navigation }) => {
 	}
 
 	const takePhoto = async () => {
+		// setType(
+		// 	type === Camera.Constants.Type.back
+		// 		? Camera.Constants.Type.front
+		// 		: Camera.Constants.Type.back,
+		// );
+
 		const photo = await camera.takePictureAsync();
+		await MediaLibrary.createAssetAsync(photo.uri);
+		const location = await Location.getCurrentPositionAsync();
+
 		setPhoto(photo.uri);
 	};
 
 	sendPhoto = () => {
-		navigation.navigate('Posts', { photo });
+		navigation.navigate('DefaultScreen', { photo });
 	};
 
 	return (
 		<View style={styles.container}>
-			<Camera style={styles.camera} ref={setCamera}>
+			<Camera style={styles.camera} ref={setCamera} type={type}>
 				{photo && (
 					<View style={styles.takePhotoContainer}>
 						<Image source={{ uri: photo }} style={{ height: 200, width: 200 }} />

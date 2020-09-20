@@ -1,6 +1,6 @@
 //Core
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, TextInput, View, ImageBackground, Text, Button } from 'react-native';
+import { StyleSheet, TextInput, View, ImageBackground, Text } from 'react-native';
 import { TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { Dimensions } from 'react-native';
 //Assets
