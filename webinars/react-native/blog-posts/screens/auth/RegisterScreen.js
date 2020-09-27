@@ -3,11 +3,13 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, TextInput, View, ImageBackground, Text } from 'react-native';
 import { TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { Dimensions } from 'react-native';
+import { authSignUpUser } from '../../redux/auh/authOperations';
+import { useDispatch } from 'react-redux';
 //Assets
 import bgImage from '../../assets/images/bg-food.jpg';
 
 const initialState = {
-	name: '',
+	nickname: '',
 	email: '',
 	password: '',
 };
@@ -15,6 +17,8 @@ const initialState = {
 export default function RegisterScreen({ navigation }) {
 	const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 	const [state, setState] = useState(initialState);
+
+	const dispatch = useDispatch();
 
 	const [dimensions, setDimensions] = useState(Dimensions.get('window').width - 25 * 2);
 
@@ -33,10 +37,14 @@ export default function RegisterScreen({ navigation }) {
 	const keyboardHide = () => {
 		setIsShowKeyboard(false);
 		Keyboard.dismiss();
-		setState(initialState);
 	};
 
-	const changeInputName = value => setState(prevState => ({ ...prevState, name: value }));
+	const handleSubmit = () => {
+		setState(initialState);
+		dispatch(authSignUpUser(state));
+	};
+
+	const changeInputNickname = value => setState(prevState => ({ ...prevState, nickname: value }));
 	const changeInputEmail = value => setState(prevState => ({ ...prevState, email: value }));
 	const changeInputPass = value => setState(prevState => ({ ...prevState, password: value }));
 
@@ -46,12 +54,12 @@ export default function RegisterScreen({ navigation }) {
 				<ImageBackground style={styles.bgImage} source={bgImage}>
 					<View style={{ ...styles.form, width: dimensions }}>
 						<View>
-							<Text style={styles.inputLabel}>Full Name</Text>
+							<Text style={styles.inputLabel}>Nickname</Text>
 							<TextInput
 								style={styles.textInput}
 								onFocus={() => setIsShowKeyboard(true)}
-								value={state.name}
-								onChangeText={changeInputName}
+								value={state.nickname}
+								onChangeText={changeInputNickname}
 							/>
 						</View>
 						<View style={{ marginTop: 20 }}>
@@ -76,7 +84,7 @@ export default function RegisterScreen({ navigation }) {
 						<TouchableOpacity
 							style={styles.button}
 							activeOpacity={0.8}
-							onPress={keyboardHide}
+							onPress={handleSubmit}
 						>
 							<Text style={styles.buttonLabel}>SIGN UP</Text>
 						</TouchableOpacity>

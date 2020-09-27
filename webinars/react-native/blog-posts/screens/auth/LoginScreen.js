@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, TextInput, View, ImageBackground, Text } from 'react-native';
 import { TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { Dimensions } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { authSignInUser } from '../../redux/auh/authOperations';
 //Assets
 import bgImage from '../../assets/images/bg-food.jpg';
 
@@ -14,6 +16,8 @@ const initialState = {
 export default function LoginScreen({ navigation }) {
 	const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 	const [state, setState] = useState(initialState);
+
+	const dispatch = useDispatch();
 
 	const [dimensions, setDimensions] = useState(Dimensions.get('window').width - 25 * 2);
 
@@ -32,7 +36,11 @@ export default function LoginScreen({ navigation }) {
 	const keyboardHide = () => {
 		setIsShowKeyboard(false);
 		Keyboard.dismiss();
+	};
+
+	const handleSubmit = () => {
 		setState(initialState);
+		dispatch(authSignInUser(state));
 	};
 
 	const changeInputEmail = value => setState(prevState => ({ ...prevState, email: value }));
@@ -65,7 +73,7 @@ export default function LoginScreen({ navigation }) {
 						<TouchableOpacity
 							style={styles.button}
 							activeOpacity={0.8}
-							onPress={keyboardHide}
+							onPress={handleSubmit}
 						>
 							<Text style={styles.buttonLabel}>SIGN IN</Text>
 						</TouchableOpacity>
