@@ -2,15 +2,15 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-//Components
+//Screens
 import LoginScreen from '../screens/auth/LoginScreen';
 import RegisterScreen from '../screens/auth/RegisterScreen';
 import PostsScreen from '../screens/mainScreens/PostsScreen';
 import CreateScreen from '../screens/mainScreens/CreateScreen';
 import ProfileScreen from '../screens/mainScreens/ProfileScreen';
 //Icons
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const AuthStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
@@ -32,6 +32,7 @@ export const useRoute = isAuth => {
 			</AuthStack.Navigator>
 		);
 	}
+
 	return (
 		<MainTab.Navigator tabBarOptions={{ showLabel: false }}>
 			<MainTab.Screen

@@ -1,5 +1,7 @@
-import db from '../../firebase/config';
+//Redux
 import { authSlice } from './authReducer';
+//Database
+import db from '../../firebase/config';
 
 export const authSignUpUser = ({ email, password, nickname }) => async dispatch => {
 	try {
@@ -24,7 +26,7 @@ export const authSignUpUser = ({ email, password, nickname }) => async dispatch 
 
 export const authSignInUser = ({ email, password }) => async dispatch => {
 	try {
-		const user = await db.auth().signInWithEmailAndPassword(email, password);
+		await db.auth().signInWithEmailAndPassword(email, password);
 	} catch (error) {
 		console.log('error', error);
 		console.log('error.message', error.message);

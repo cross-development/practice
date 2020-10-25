@@ -1,25 +1,32 @@
+//Core
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, TextInput } from 'react-native';
 import { Camera } from 'expo-camera';
-import * as MediaLibrary from 'expo-media-library';
-import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import * as Location from 'expo-location';
+import * as MediaLibrary from 'expo-media-library';
+import { View, Text, StyleSheet, Image, TextInput } from 'react-native';
+import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+//Redux
+import { useSelector } from 'react-redux';
+//Database
 import db from '../../firebase/config';
 
 const CreateScreen = ({ navigation }) => {
-	const [hasPermission, setHasPermission] = useState(null);
-	const [type, setType] = useState(Camera.Constants.Type.back);
-	const [camera, setCamera] = useState(null);
 	const [photo, setPhoto] = useState(null);
+	const [camera, setCamera] = useState(null);
 	const [comment, setComment] = useState('');
 	const [location, setLocation] = useState(null);
+	const [type, setType] = useState(Camera.Constants.Type.back);
+
+	const { userId, nickname } = useSelector(state => state.auth);
 
 	useEffect(() => {
 		(async () => {
-			const { status } = await Camera.requestPermissionsAsync();
+			let { status } = await Camera.requestPermissionsAsync();
 			await MediaLibrary.requestPermissionsAsync();
 
-			setHasPermission(status === 'granted');
+			if (status !== 'granted') {
+				console.log('Permission to access location was denied');
+			}
 		})();
 	}, []);
 
@@ -27,25 +34,34 @@ const CreateScreen = ({ navigation }) => {
 		(async () => {
 			const { status } = await Location.requestPermissionsAsync();
 
-			let location = await Location.getCurrentPositionAsync({});
-			setLocation(location);
+			if (status !== 'granted') {
+				console.log('Permission to access location was denied');
+			}
+
+			let locationRes = await Location.getCurrentPositionAsync({});
+			setLocation(locationRes);
 		})();
 	}, []);
-
-	if (hasPermission === null) return <View />;
-	if (hasPermission === false) return <Text>No access to camera</Text>;
 
 	const takePhoto = async () => {
 		const { uri } = await camera.takePictureAsync();
 		await MediaLibrary.createAssetAsync(uri);
-		const location = await Location.getCurrentPositionAsync();
 
 		setPhoto(uri);
 	};
 
 	const sendPhoto = () => {
-		uploadPhotoToServer();
-		navigation.navigate('DefaultScreen', { photo });
+		uploadPostToServer();
+		navigation.navigate('DefaultScreen');
+	};
+
+	const uploadPostToServer = async () => {
+		const photo = await uploadPhotoToServer();
+
+		const createPost = await db
+			.firestore()
+			.collection('posts')
+			.add({ photo, comment, location: location.coords, userId, nickname });
 	};
 
 	const uploadPhotoToServer = async () => {
@@ -61,6 +77,8 @@ const CreateScreen = ({ navigation }) => {
 			.ref('postImage')
 			.child(uniquePostId)
 			.getDownloadURL();
+
+		return processedPhoto;
 	};
 
 	return (
@@ -98,7 +116,6 @@ const styles = StyleSheet.create({
 	},
 
 	camera: {
-		// flex: 1,
 		height: '70%',
 		marginHorizontal: 2,
 		marginTop: 30,
@@ -153,7 +170,7 @@ const styles = StyleSheet.create({
 	input: {
 		height: 50,
 		borderWidth: 1,
-		borderColor: '#fff',
+		borderColor: 'transparent',
 		borderBottomColor: '#20b2aa',
 	},
 });

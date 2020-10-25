@@ -1,8 +1,9 @@
 //Core
 import React, { useState, useEffect } from 'react';
+import { Dimensions } from 'react-native';
 import { StyleSheet, TextInput, View, ImageBackground, Text } from 'react-native';
 import { TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native';
-import { Dimensions } from 'react-native';
+//Redux
 import { useDispatch } from 'react-redux';
 import { authSignInUser } from '../../redux/auh/authOperations';
 //Assets
@@ -14,18 +15,18 @@ const initialState = {
 };
 
 export default function LoginScreen({ navigation }) {
-	const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 	const [state, setState] = useState(initialState);
+	const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+	const [dimensions, setDimensions] = useState(Dimensions.get('window').width - 25 * 2);
 
 	const dispatch = useDispatch();
-
-	const [dimensions, setDimensions] = useState(Dimensions.get('window').width - 25 * 2);
 
 	useEffect(() => {
 		const onChange = () => {
 			const width = Dimensions.get('window').width - 25 * 2;
 			setDimensions(width);
 		};
+
 		Dimensions.addEventListener('change', onChange);
 
 		return () => {
@@ -109,7 +110,6 @@ const styles = StyleSheet.create({
 
 	form: {
 		backgroundColor: 'rgba(0, 0, 0, 0.5)',
-		// marginHorizontal: 50,
 		borderWidth: 1,
 		borderColor: '#fffaf0',
 		paddingTop: 30,

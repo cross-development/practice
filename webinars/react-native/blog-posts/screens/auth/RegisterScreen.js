@@ -1,10 +1,11 @@
 //Core
 import React, { useState, useEffect } from 'react';
+import { Dimensions } from 'react-native';
 import { StyleSheet, TextInput, View, ImageBackground, Text } from 'react-native';
 import { TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native';
-import { Dimensions } from 'react-native';
-import { authSignUpUser } from '../../redux/auh/authOperations';
+//Redux
 import { useDispatch } from 'react-redux';
+import { authSignUpUser } from '../../redux/auh/authOperations';
 //Assets
 import bgImage from '../../assets/images/bg-food.jpg';
 
@@ -15,18 +16,18 @@ const initialState = {
 };
 
 export default function RegisterScreen({ navigation }) {
-	const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 	const [state, setState] = useState(initialState);
+	const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+	const [dimensions, setDimensions] = useState(Dimensions.get('window').width - 25 * 2);
 
 	const dispatch = useDispatch();
-
-	const [dimensions, setDimensions] = useState(Dimensions.get('window').width - 25 * 2);
 
 	useEffect(() => {
 		const onChange = () => {
 			const width = Dimensions.get('window').width - 25 * 2;
 			setDimensions(width);
 		};
+
 		Dimensions.addEventListener('change', onChange);
 
 		return () => {
@@ -44,9 +45,9 @@ export default function RegisterScreen({ navigation }) {
 		dispatch(authSignUpUser(state));
 	};
 
-	const changeInputNickname = value => setState(prevState => ({ ...prevState, nickname: value }));
 	const changeInputEmail = value => setState(prevState => ({ ...prevState, email: value }));
 	const changeInputPass = value => setState(prevState => ({ ...prevState, password: value }));
+	const changeInputNickname = value => setState(prevState => ({ ...prevState, nickname: value }));
 
 	return (
 		<TouchableWithoutFeedback onPress={keyboardHide}>
