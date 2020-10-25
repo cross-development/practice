@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TextInput } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import * as Location from 'expo-location';
+import db from '../../firebase/config';
 
 const CreateScreen = ({ navigation }) => {
 	const [hasPermission, setHasPermission] = useState(null);
 	const [type, setType] = useState(Camera.Constants.Type.back);
 	const [camera, setCamera] = useState(null);
 	const [photo, setPhoto] = useState(null);
+	const [comment, setComment] = useState('');
+	const [location, setLocation] = useState(null);
 
 	useEffect(() => {
 		(async () => {
@@ -20,30 +23,44 @@ const CreateScreen = ({ navigation }) => {
 		})();
 	}, []);
 
-	if (hasPermission === null) {
-		return <View />;
-	}
+	useEffect(() => {
+		(async () => {
+			const { status } = await Location.requestPermissionsAsync();
 
-	if (hasPermission === false) {
-		return <Text>No access to camera</Text>;
-	}
+			let location = await Location.getCurrentPositionAsync({});
+			setLocation(location);
+		})();
+	}, []);
+
+	if (hasPermission === null) return <View />;
+	if (hasPermission === false) return <Text>No access to camera</Text>;
 
 	const takePhoto = async () => {
-		// setType(
-		// 	type === Camera.Constants.Type.back
-		// 		? Camera.Constants.Type.front
-		// 		: Camera.Constants.Type.back,
-		// );
-
-		const photo = await camera.takePictureAsync();
-		await MediaLibrary.createAssetAsync(photo.uri);
+		const { uri } = await camera.takePictureAsync();
+		await MediaLibrary.createAssetAsync(uri);
 		const location = await Location.getCurrentPositionAsync();
 
-		setPhoto(photo.uri);
+		setPhoto(uri);
 	};
 
-	sendPhoto = () => {
+	const sendPhoto = () => {
+		uploadPhotoToServer();
 		navigation.navigate('DefaultScreen', { photo });
+	};
+
+	const uploadPhotoToServer = async () => {
+		const response = await fetch(photo);
+		const file = await response.blob();
+
+		const uniquePostId = Date.now().toString();
+
+		await db.storage().ref(`postImage/${uniquePostId}`).put(file);
+
+		const processedPhoto = await db
+			.storage()
+			.ref('postImage')
+			.child(uniquePostId)
+			.getDownloadURL();
 	};
 
 	return (
@@ -63,6 +80,10 @@ const CreateScreen = ({ navigation }) => {
 					<Text style={styles.snap}>SNAP</Text>
 				</TouchableOpacity>
 			</Camera>
+
+			<View style={styles.inputContainer}>
+				<TextInput style={styles.input} onChangeText={setComment} />
+			</View>
 
 			<TouchableOpacity activeOpacity={0.6} style={styles.sendBtn} onPress={sendPhoto}>
 				<Text style={styles.sendLabel}>SEND</Text>
@@ -123,6 +144,17 @@ const styles = StyleSheet.create({
 	sendLabel: {
 		color: '#20b2aa',
 		fontSize: 20,
+	},
+
+	inputContainer: {
+		marginHorizontal: 10,
+	},
+
+	input: {
+		height: 50,
+		borderWidth: 1,
+		borderColor: '#fff',
+		borderBottomColor: '#20b2aa',
 	},
 });
 

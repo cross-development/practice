@@ -31,6 +31,23 @@ export const authSignInUser = ({ email, password }) => async dispatch => {
 	}
 };
 
-export const authSignOutUser = () => async dispatch => {};
+export const authSignOutUser = () => async dispatch => {
+	await db.auth().signOut();
 
-export const authSateChangeUser = () => async dispatch => {};
+	dispatch(authSlice.actions.authSignOut());
+};
+
+export const authSateChangeUser = () => async dispatch => {
+	await db.auth().onAuthStateChanged(user => {
+		if (user) {
+			dispatch(
+				authSlice.actions.updateUserProfile({
+					userId: user.uid,
+					nickname: user.displayName,
+				}),
+			);
+
+			dispatch(authSlice.actions.authStateChange({ stateChange: true }));
+		}
+	});
+};

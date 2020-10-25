@@ -1,13 +1,12 @@
 //Core
 import React, { useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { loadAsync } from 'expo-font';
 import { AppLoading } from 'expo';
-import { useRoute } from './router/router';
-import { Provider } from 'react-redux';
+import { loadAsync } from 'expo-font';
+//Components
+import Main from './components/Main';
+//Redux
 import { store } from './redux/store';
-
-import db from './firebase/config';
+import { Provider } from 'react-redux';
 
 const loadApplication = async () => {
 	await loadAsync({
@@ -17,11 +16,6 @@ const loadApplication = async () => {
 
 export default function App() {
 	const [isReady, setIsReady] = useState(false);
-	const [user, setUser] = useState(null);
-
-	db.auth().onAuthStateChanged(user => setUser(user));
-
-	const routing = useRoute(user);
 
 	if (!isReady) {
 		return (
@@ -35,7 +29,7 @@ export default function App() {
 
 	return (
 		<Provider store={store}>
-			<NavigationContainer>{routing}</NavigationContainer>
+			<Main />
 		</Provider>
 	);
 }
