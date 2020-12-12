@@ -6,6 +6,8 @@ import Counter from './Counter';
 import EventsCounter from './EventsCounter';
 import Form from './Form';
 import EventsForm from './EventsForm';
+import Portal from './Portal';
+import Context from './Context';
 
 const App = () => {
 	return (
@@ -19,6 +21,10 @@ const App = () => {
 			<Form />
 
 			<EventsForm />
+
+			<Portal />
+
+			<Context />
 		</>
 	);
 };
