@@ -1,8 +1,8 @@
 const { Schema, model } = require('mongoose');
 
 const directorSchema = new Schema({
-	name: { type: String, required: true },
-	age: { type: Number, required: true },
+	name: String,
+	age: Number,
 });
 
 module.exports = model('Director', directorSchema);
