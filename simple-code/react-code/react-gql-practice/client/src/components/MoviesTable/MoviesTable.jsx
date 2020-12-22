@@ -1,5 +1,5 @@
 //Core
-import React from 'react';
+import React, { useState } from 'react';
 //Material-ui components
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -20,89 +20,126 @@ import MoviesDialog from '../MoviesDialog/MoviesDialog';
 import withHocs from './MoviesTableHoc';
 
 const movies = [
-  { id: 1, name: 'Pulp Fiction', genre: 'Crime', rate: 10, director: { name: 'Quentin Tarantino' }, watched: true },
-  { id: 2, name: 'Lock, Stock and Two Smoking Barrels', genre: 'Crime-comedy', rate: 9, director: { name: 'Guy Ritchie' }, watched: false },
+	{
+		id: 1,
+		name: 'Pulp Fiction',
+		genre: 'Crime',
+		rate: 10,
+		director: { name: 'Quentin Tarantino' },
+		watched: true,
+	},
+	{
+		id: 2,
+		name: 'Lock, Stock and Two Smoking Barrels',
+		genre: 'Crime-comedy',
+		rate: 9,
+		director: { name: 'Guy Ritchie' },
+		watched: false,
+	},
 ];
 
-class MoviesTable extends React.Component {
-  state = {
-    anchorEl: null,
-    openDialog: false,
-  };
+const initialState = {
+	anchorEl: null,
+	openDialog: false,
+	data: {},
+};
 
-  handleDialogOpen = () => { this.setState({ openDialog: true }); };
-  handleDialogClose = () => { this.setState({ openDialog: false }); };
+const MoviesTable = ({ classes, onOpen, onClose }) => {
+	const [state, setState] = useState(initialState);
 
-  handleClick = ({ currentTarget }, data) => {
-    this.setState({
-      anchorEl: currentTarget,
-      data,
-    });
-  };
+	const handleDialogOpen = () =>
+		setState(prevState => ({ ...prevState, openDialog: true }));
 
-  handleClose = () => { this.setState({ anchorEl: null }); };
+	const handleDialogClose = () =>
+		setState(prevState => ({ ...prevState, openDialog: false }));
 
-  handleEdit = () => {
-    this.props.onOpen(this.state.data);
-    this.handleClose();
-  };
+	const handleClick = ({ currentTarget }, data) =>
+		setState(prevState => ({ ...prevState, anchorEl: currentTarget, data }));
 
-  handleDelete = () => {
-    this.handleDialogOpen();
-    this.handleClose();
-  };
+	const handleClose = () =>
+		setState(prevState => ({ ...prevState, anchorEl: null }));
 
-  render() {
-    const { anchorEl, openDialog, data: activeElem = {} } = this.state;
+	const handleEdit = () => {
+		onOpen(state.data);
+		handleClose();
+	};
 
-    const { classes } = this.props;
+	const handleDelete = () => {
+		handleDialogOpen();
+		handleClose();
+	};
 
-    return (
-      <>
-        <MoviesDialog open={openDialog} handleClose={this.handleDialogClose} id={activeElem.id} />
-        <Paper className={classes.root}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Genre</TableCell>
-                <TableCell align="right">Rate</TableCell>
-                <TableCell>Director</TableCell>
-                <TableCell>Watched</TableCell>
-                <TableCell align="right"></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {movies.map(movie => {
-                return (
-                  <TableRow key={movie.id}>
-                    <TableCell component="th" scope="row">{movie.name}</TableCell>
-                    <TableCell>{movie.genre}</TableCell>
-                    <TableCell align="right">{movie.rate}</TableCell>
-                    <TableCell>{movie.director.name}</TableCell>
-                    <TableCell>
-                      <Checkbox checked={movie.watched} disabled />
-                    </TableCell>
-                    <TableCell align="right">
-                      <>
-                        <IconButton color="inherit" onClick={(e) => this.handleClick(e, movie)}>
-                          <MoreIcon />
-                        </IconButton>
-                        <Menu id="simple-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={this.handleClose} >
-                          <MenuItem onClick={this.handleEdit}><CreateIcon /> Edit</MenuItem>
-                          <MenuItem onClick={this.handleDelete}><DeleteIcon/> Delete</MenuItem>
-                        </Menu>
-                      </>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </Paper>
-      </>
-    );
-  }
+	const { anchorEl, openDialog, data } = state;
+
+	return (
+		<>
+			<MoviesDialog
+				open={openDialog}
+				handleClose={handleDialogClose}
+				id={data.id}
+			/>
+			<Paper className={classes.root}>
+				<Table>
+					<TableHead>
+						<TableRow>
+							<TableCell>Name</TableCell>
+							<TableCell>Genre</TableCell>
+							<TableCell align="right">Rate</TableCell>
+							<TableCell>Director</TableCell>
+							<TableCell>Watched</TableCell>
+							<TableCell align="right"></TableCell>
+						</TableRow>
+					</TableHead>
+
+					<TableBody>
+						{movies.map(movie => (
+							<TableRow key={movie.id}>
+								<TableCell component="th" scope="row">
+									{movie.name}
+								</TableCell>
+
+								<TableCell>{movie.genre}</TableCell>
+
+								<TableCell align="right">{movie.rate}</TableCell>
+
+								<TableCell>{movie.director.name}</TableCell>
+
+								<TableCell>
+									<Checkbox checked={movie.watched} disabled />
+								</TableCell>
+
+								<TableCell align="right">
+									<>
+										<IconButton
+											color="inherit"
+											onClick={e => handleClick(e, movie)}
+										>
+											<MoreIcon />
+										</IconButton>
+
+										<Menu
+											id="simple-menu"
+											anchorEl={anchorEl}
+											open={Boolean(anchorEl)}
+											onClose={handleClose}
+										>
+											<MenuItem onClick={handleEdit}>
+												<CreateIcon /> Edit
+											</MenuItem>
+
+											<MenuItem onClick={handleDelete}>
+												<DeleteIcon /> Delete
+											</MenuItem>
+										</Menu>
+									</>
+								</TableCell>
+							</TableRow>
+						))}
+					</TableBody>
+				</Table>
+			</Paper>
+		</>
+	);
 };
 
 export default withHocs(MoviesTable);

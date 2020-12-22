@@ -22,6 +22,7 @@ const Directors = ({ classes }) => {
 	const handleClickOpen = data =>
 		setState(prevState => ({ ...prevState, open: true, data }));
 
+	//!!!!!!!!!!!!!!!!!!!
 	const handleClose = () => setState(initialState);
 
 	const handleChange = name => ({ target }) =>
