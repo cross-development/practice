@@ -1,8 +1,9 @@
 //Core
 import React, { useState } from 'react';
-//Components
+//Material-ui components
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+//Custom components
 import DirectorsTable from '../DirectorsTable/DirectorsTable';
 import DirectorsForm from '../DirectorsForm/DirectorsForm';
 //HOC

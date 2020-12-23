@@ -18,28 +18,13 @@ import DirectorsDialog from '../DirectorsDialog/DirectorsDialog';
 //HOC
 import withHocs from './DirectorsTableHoc';
 
-const directors = [
-	{
-		id: 1,
-		name: 'Quentin Tarantino',
-		age: 55,
-		movies: [{ name: 'Movie 1' }, { name: 'Movie 2' }],
-	},
-	{
-		id: 2,
-		name: 'Guy Ritchie',
-		age: 50,
-		movies: [{ name: 'Movie 1' }, { name: 'Movie 2' }],
-	},
-];
-
 const initialState = {
 	anchorEl: null,
 	openDialog: false,
 	data: {},
 };
 
-const DirectorsTable = ({ classes, onOpen, onClose }) => {
+const DirectorsTable = ({ classes, onOpen, onClose, data: { directors = [] } }) => {
 	const [state, setState] = useState(initialState);
 
 	const handleDialogOpen = () =>

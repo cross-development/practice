@@ -16,25 +16,12 @@ import SaveIcon from '@material-ui/icons/Save';
 //HOC
 import withHocs from './MoviesFormHoc';
 
-const directors = [
-	{
-		id: 1,
-		name: 'Quentin Tarantino',
-		age: 55,
-		movies: [{ name: 'Movie 1' }, { name: 'Movie 2' }],
-	},
-	{
-		id: 2,
-		name: 'Guy Ritchie',
-		age: 50,
-		movies: [{ name: 'Movie 1' }, { name: 'Movie 2' }],
-	},
-];
-
 const MoviesForm = props => {
-	const { classes, open, onClose, selectedValue = {} } = props;
-	const { id, name, genre, rate, directorId, watched } = selectedValue;
 	const { handleChange, handleSelectChange, handleCheckboxChange } = props;
+	const { classes, open, onClose, selectedValue = {}, data = {} } = props;
+
+	const { id, name, genre, rate, directorId, watched } = selectedValue;
+	const { directors = [] } = data;
 
 	const handleClose = () => onClose();
 
@@ -84,11 +71,11 @@ const MoviesForm = props => {
 
 				<FormControl variant="outlined" className={classes.formControlSelect}>
 					<InputLabel htmlFor="outlined-age-simple">Director</InputLabel>
-					
+
 					{/* ! error: non-control element */}
 					<Select
-						value={directorId}
 						onChange={handleSelectChange}
+						value={directorId}
 						input={
 							<OutlinedInput
 								name="directorId"
