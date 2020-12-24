@@ -15,16 +15,32 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
 //Custom components
 import DirectorsDialog from '../DirectorsDialog/DirectorsDialog';
+import DirectorsSearch from '../DirectorsSearch/DirectorsSearch';
 //HOC
 import withHocs from './DirectorsTableHoc';
 
 const initialState = {
 	anchorEl: null,
 	openDialog: false,
+	name: '',
 };
 
-const DirectorsTable = ({ classes, onOpen, onClose, data: { directors = [] } }) => {
+const DirectorsTable = ({ classes, onOpen, onClose, data }) => {
 	const [state, setState] = useState(initialState);
+
+	const { directors = [], fetchMore } = data;
+
+	const handleChange = name => event =>
+		setState(prevState => ({ ...prevState, [name]: event.target.value }));
+
+	const handleSearch = e => {
+		if (e.charCode === 13) {
+			fetchMore({
+				variables: { name: state.name },
+				updateQuery: (previousResult, { fetchMoreResult }) => fetchMoreResult,
+			});
+		}
+	};
 
 	const handleDialogOpen = () =>
 		setState(prevState => ({ ...prevState, openDialog: true }));
@@ -33,7 +49,7 @@ const DirectorsTable = ({ classes, onOpen, onClose, data: { directors = [] } }) 
 		setState(prevState => ({ ...prevState, openDialog: false }));
 
 	const handleClick = ({ currentTarget }, data) =>
-		setState(prevState => ({ ...prevState, anchorEl: currentTarget, ...data }));
+		setState(prevState => ({ ...prevState, anchorEl: currentTarget, data }));
 
 	const handleClose = () =>
 		setState(prevState => ({ ...prevState, anchorEl: null }));
@@ -48,10 +64,18 @@ const DirectorsTable = ({ classes, onOpen, onClose, data: { directors = [] } }) 
 		handleClose();
 	};
 
-	const { anchorEl, openDialog, data: activeElem = {} } = state;
+	const { anchorEl, openDialog, data: activeElem = {}, name } = state;
 
 	return (
 		<>
+			<Paper>
+				<DirectorsSearch
+					name={name}
+					handleChange={handleChange}
+					handleSearch={handleSearch}
+				/>
+			</Paper>
+
 			<DirectorsDialog
 				open={openDialog}
 				handleClose={handleDialogClose}

@@ -16,16 +16,32 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
 //Custom components
 import MoviesDialog from '../MoviesDialog/MoviesDialog';
+import MoviesSearch from '../MoviesSearch/MoviesSearch';
 //HOC
 import withHocs from './MoviesTableHoc';
 
 const initialState = {
 	anchorEl: null,
 	openDialog: false,
+	name: '',
 };
 
-const MoviesTable = ({ classes, onOpen, onClose, data: { movies = [] } }) => {
+const MoviesTable = ({ classes, onOpen, onClose, data }) => {
 	const [state, setState] = useState(initialState);
+
+	const { movies = [], fetchMore } = data;
+
+	const handleChange = name => event =>
+		setState(prevState => ({ ...prevState, [name]: event.target.value }));
+
+	const handleSearch = e => {
+		if (e.charCode === 13) {
+			fetchMore({
+				variables: { name: state.name },
+				updateQuery: (previousResult, { fetchMoreResult }) => fetchMoreResult,
+			});
+		}
+	};
 
 	const handleDialogOpen = () =>
 		setState(prevState => ({ ...prevState, openDialog: true }));
@@ -34,7 +50,7 @@ const MoviesTable = ({ classes, onOpen, onClose, data: { movies = [] } }) => {
 		setState(prevState => ({ ...prevState, openDialog: false }));
 
 	const handleClick = ({ currentTarget }, data) =>
-		setState(prevState => ({ ...prevState, anchorEl: currentTarget, ...data }));
+		setState(prevState => ({ ...prevState, anchorEl: currentTarget, data }));
 
 	const handleClose = () =>
 		setState(prevState => ({ ...prevState, anchorEl: null }));
@@ -49,14 +65,22 @@ const MoviesTable = ({ classes, onOpen, onClose, data: { movies = [] } }) => {
 		handleClose();
 	};
 
-	const { anchorEl, openDialog, data = {} } = state;
+	const { anchorEl, openDialog, data: activeElem = {}, name } = state;
 
 	return (
 		<>
+			<Paper>
+				<MoviesSearch
+					name={name}
+					handleChange={handleChange}
+					handleSearch={handleSearch}
+				/>
+			</Paper>
+
 			<MoviesDialog
 				open={openDialog}
 				handleClose={handleDialogClose}
-				id={data.id}
+				id={activeElem.id}
 			/>
 			<Paper className={classes.root}>
 				<Table>

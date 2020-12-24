@@ -2,6 +2,7 @@ export const styles = theme => ({
 	search: {
 		position: 'relative',
 		width: '100%',
+		marginBottom: theme.spacing(3),
 	},
 
 	searchIcon: {
@@ -18,7 +19,7 @@ export const styles = theme => ({
 		color: 'inherit',
 		width: '100%',
 	},
-	
+
 	inputInput: {
 		paddingTop: theme.spacing(2),
 		paddingRight: theme.spacing(2),
