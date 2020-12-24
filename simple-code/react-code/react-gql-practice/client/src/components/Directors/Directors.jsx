@@ -13,18 +13,15 @@ const initialState = {
 	open: false,
 	name: '',
 	age: 0,
-	id: null,
-	data: null,
 };
 
 const Directors = ({ classes }) => {
 	const [state, setState] = useState(initialState);
 
-	const handleClickOpen = data =>
-		setState(prevState => ({ ...prevState, open: true, data }));
-
-	//!!!!!!!!!!!!!!!!!!!
 	const handleClose = () => setState(initialState);
+
+	const handleClickOpen = data =>
+		setState(prevState => ({ ...prevState, open: true, ...data }));
 
 	const handleChange = name => ({ target }) =>
 		setState(prevState => ({ ...prevState, [name]: target.value }));

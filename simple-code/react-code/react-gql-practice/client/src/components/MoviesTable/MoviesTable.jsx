@@ -22,7 +22,6 @@ import withHocs from './MoviesTableHoc';
 const initialState = {
 	anchorEl: null,
 	openDialog: false,
-	data: {},
 };
 
 const MoviesTable = ({ classes, onOpen, onClose, data: { movies = [] } }) => {
@@ -35,7 +34,7 @@ const MoviesTable = ({ classes, onOpen, onClose, data: { movies = [] } }) => {
 		setState(prevState => ({ ...prevState, openDialog: false }));
 
 	const handleClick = ({ currentTarget }, data) =>
-		setState(prevState => ({ ...prevState, anchorEl: currentTarget, data }));
+		setState(prevState => ({ ...prevState, anchorEl: currentTarget, ...data }));
 
 	const handleClose = () =>
 		setState(prevState => ({ ...prevState, anchorEl: null }));
@@ -50,7 +49,7 @@ const MoviesTable = ({ classes, onOpen, onClose, data: { movies = [] } }) => {
 		handleClose();
 	};
 
-	const { anchorEl, openDialog, data } = state;
+	const { anchorEl, openDialog, data = {} } = state;
 
 	return (
 		<>

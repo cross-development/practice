@@ -44,7 +44,6 @@ const Movies = ({ classes }) => {
 
 	return (
 		<>
-			{/* ! error: non-control element */}
 			<MoviesForm
 				open={open}
 				onClose={handleClose}

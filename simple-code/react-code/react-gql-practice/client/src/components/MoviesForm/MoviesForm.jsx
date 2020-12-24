@@ -18,14 +18,27 @@ import withHocs from './MoviesFormHoc';
 
 const MoviesForm = props => {
 	const { handleChange, handleSelectChange, handleCheckboxChange } = props;
-	const { classes, open, onClose, selectedValue = {}, data = {} } = props;
+	const { classes, open, onClose, selectedValue = {} } = props;
+	const { data = {}, addMovie, updateMovie } = props;
 
 	const { id, name, genre, rate, directorId, watched } = selectedValue;
 	const { directors = [] } = data;
 
 	const handleClose = () => onClose();
 
-	const handleSave = () => onClose();
+	const handleSave = () => {
+		const movie = {
+			name,
+			genre,
+			directorId,
+			rate: Number(rate),
+			watched: Boolean(watched),
+		};
+
+		id ? updateMovie({ id, ...movie }) : addMovie({ ...movie });
+
+		onClose();
+	};
 
 	return (
 		<Dialog
@@ -72,7 +85,6 @@ const MoviesForm = props => {
 				<FormControl variant="outlined" className={classes.formControlSelect}>
 					<InputLabel htmlFor="outlined-age-simple">Director</InputLabel>
 
-					{/* ! error: non-control element */}
 					<Select
 						onChange={handleSelectChange}
 						value={directorId}

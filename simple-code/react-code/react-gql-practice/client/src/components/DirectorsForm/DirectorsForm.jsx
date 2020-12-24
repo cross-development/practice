@@ -11,11 +11,18 @@ import withHocs from './DirectorsFormHoc';
 
 const DirectorsForm = props => {
 	const { selectedValue = {}, onClose, classes, open, handleChange } = props;
+	const { addDirector, updateDirector } = props;
 	const { id, name, age } = selectedValue;
 
 	const handleClose = () => onClose();
 
-	const handleSave = () => onClose();
+	const handleSave = () => {
+		id
+			? updateDirector({ id, name, age: Number(age) })
+			: addDirector({ name, age: Number(age) });
+
+		onClose();
+	};
 
 	return (
 		<Dialog

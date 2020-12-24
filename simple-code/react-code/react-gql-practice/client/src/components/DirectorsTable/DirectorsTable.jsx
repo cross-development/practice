@@ -21,7 +21,6 @@ import withHocs from './DirectorsTableHoc';
 const initialState = {
 	anchorEl: null,
 	openDialog: false,
-	data: {},
 };
 
 const DirectorsTable = ({ classes, onOpen, onClose, data: { directors = [] } }) => {
@@ -34,7 +33,7 @@ const DirectorsTable = ({ classes, onOpen, onClose, data: { directors = [] } }) 
 		setState(prevState => ({ ...prevState, openDialog: false }));
 
 	const handleClick = ({ currentTarget }, data) =>
-		setState(prevState => ({ ...prevState, anchorEl: currentTarget, data }));
+		setState(prevState => ({ ...prevState, anchorEl: currentTarget, ...data }));
 
 	const handleClose = () =>
 		setState(prevState => ({ ...prevState, anchorEl: null }));
