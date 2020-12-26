@@ -1,5 +1,6 @@
 //Core
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 //Material-ui components
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -25,7 +26,7 @@ const initialState = {
 	name: '',
 };
 
-const DirectorsTable = ({ classes, onOpen, onClose, data }) => {
+const DirectorsTable = ({ classes, onOpen, data }) => {
 	const [state, setState] = useState(initialState);
 
 	const { directors = [], fetchMore } = data;
@@ -142,6 +143,37 @@ const DirectorsTable = ({ classes, onOpen, onClose, data }) => {
 			</Paper>
 		</>
 	);
+};
+
+DirectorsTable.propsTypes = {
+	classes: PropTypes.shape({
+		root: PropTypes.string.isRequired,
+		searchRoot: PropTypes.string.isRequired,
+	}).isRequired,
+
+	onOpen: PropTypes.bool.isRequired,
+
+	data: PropTypes.shape({
+		directors: PropTypes.arrayOf(
+			PropTypes.shape({
+				id: PropTypes.string.isRequired,
+				age: PropTypes.number.isRequired,
+				name: PropTypes.string.isRequired,
+				movies: PropTypes.arrayOf(
+					PropTypes.shape({
+						id: PropTypes.string.isRequired,
+						name: PropTypes.string.isRequired,
+					}).isRequired,
+				).isRequired,
+			}).isRequired,
+		),
+
+		fetchMore: PropTypes.func.isRequired,
+	}).isRequired,
+};
+
+DirectorsTable.defaultProps = {
+	directors: [],
 };
 
 export default withHocs(DirectorsTable);

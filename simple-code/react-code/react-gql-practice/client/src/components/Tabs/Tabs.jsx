@@ -1,5 +1,6 @@
 //Core
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 //Material-ui components
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -19,6 +20,11 @@ const TabContainer = ({ children, dir }) => (
 		{children}
 	</Typography>
 );
+
+TabContainer.propTypes = {
+	children: PropTypes.node.isRequired,
+	dir: PropTypes.string.isRequired,
+};
 
 const SimpleTabs = ({ classes, theme: { direction } }) => {
 	const [value, setValue] = useState(0);
@@ -51,6 +57,18 @@ const SimpleTabs = ({ classes, theme: { direction } }) => {
 			</SwipeableViews>
 		</div>
 	);
+};
+
+SimpleTabs.propTypes = {
+	classes: PropTypes.shape({
+		root: PropTypes.string.isRequired,
+	}).isRequired,
+
+	direction: PropTypes.string,
+};
+
+SimpleTabs.defaultProps = {
+	direction: '',
 };
 
 export default withHocs(SimpleTabs);

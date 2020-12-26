@@ -1,5 +1,6 @@
 //Core
 import React from 'react';
+import PropTypes from 'prop-types';
 //Material-ui components
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -46,6 +47,17 @@ const MoviesDialog = ({ id, open, handleClose, deleteMovie }) => {
 			</DialogActions>
 		</Dialog>
 	);
+};
+
+MoviesDialog.propTypes = {
+	id: PropTypes.string,
+	open: PropTypes.bool.isRequired,
+	handleClose: PropTypes.func.isRequired,
+	deleteMovie: PropTypes.func.isRequired,
+};
+
+MoviesDialog.defaultProps = {
+	id: '',
 };
 
 export default withHocs(MoviesDialog);

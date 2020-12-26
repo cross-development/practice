@@ -1,5 +1,6 @@
 //Core
 import React from 'react';
+import PropTypes from 'prop-types';
 //Material-ui components
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -69,6 +70,38 @@ const DirectorsForm = props => {
 			</form>
 		</Dialog>
 	);
+};
+
+DirectorsForm.propTypes = {
+	onClose: PropTypes.func.isRequired,
+	handleChange: PropTypes.func.isRequired,
+	addDirector: PropTypes.func.isRequired,
+	updateDirector: PropTypes.func.isRequired,
+
+	open: PropTypes.bool.isRequired,
+
+	classes: PropTypes.shape({
+		container: PropTypes.string.isRequired,
+		title: PropTypes.string.isRequired,
+		textField: PropTypes.string.isRequired,
+		formControl: PropTypes.string.isRequired,
+		wrapper: PropTypes.string.isRequired,
+		button: PropTypes.string.isRequired,
+	}).isRequired,
+
+	selectedValue: PropTypes.shape({
+		id: PropTypes.string,
+		name: PropTypes.string.isRequired,
+		age: PropTypes.oneOfType([
+			PropTypes.string.isRequired,
+			PropTypes.number.isRequired,
+		]).isRequired,
+	}),
+};
+
+DirectorsForm.defaultProps = {
+	selectedValue: {},
+	id: '',
 };
 
 export default withHocs(DirectorsForm);

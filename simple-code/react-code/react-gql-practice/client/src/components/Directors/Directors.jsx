@@ -1,5 +1,6 @@
 //Core
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 //Material-ui components
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
@@ -51,6 +52,13 @@ const Directors = ({ classes }) => {
 			</div>
 		</>
 	);
+};
+
+Directors.propTypes = {
+	classes: PropTypes.shape({
+		fab: PropTypes.string.isRequired,
+		wrapper: PropTypes.string.isRequired,
+	}).isRequired,
 };
 
 export default withHocs(Directors);

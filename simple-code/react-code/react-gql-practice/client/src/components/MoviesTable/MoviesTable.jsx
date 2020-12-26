@@ -1,5 +1,6 @@
 //Core
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 //Material-ui components
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -26,7 +27,7 @@ const initialState = {
 	name: '',
 };
 
-const MoviesTable = ({ classes, onOpen, onClose, data }) => {
+const MoviesTable = ({ classes, onOpen, data }) => {
 	const [state, setState] = useState(initialState);
 
 	const { movies = [], fetchMore } = data;
@@ -144,6 +145,37 @@ const MoviesTable = ({ classes, onOpen, onClose, data }) => {
 			</Paper>
 		</>
 	);
+};
+
+MoviesTable.propTypes = {
+	classes: PropTypes.shape({
+		root: PropTypes.string.isRequired,
+		searchRoot: PropTypes.string.isRequired,
+	}).isRequired,
+
+	onOpen: PropTypes.func.isRequired,
+
+	data: PropTypes.shape({
+		movies: PropTypes.arrayOf(
+			PropTypes.shape({
+				director: PropTypes.shape({
+					id: PropTypes.string.isRequired,
+					name: PropTypes.string.isRequired,
+				}).isRequired,
+				genre: PropTypes.string.isRequired,
+				id: PropTypes.string.isRequired,
+				name: PropTypes.string.isRequired,
+				rate: PropTypes.number.isRequired,
+				watched: PropTypes.bool.isRequired,
+			}).isRequired,
+		),
+
+		fetchMore: PropTypes.func.isRequired,
+	}).isRequired,
+};
+
+MoviesTable.defaultProps = {
+	movies: [],
 };
 
 export default withHocs(MoviesTable);

@@ -1,13 +1,13 @@
 //Core
 import React from 'react';
 //Components
-import Tabs from './components/Tabs/Tabs';
+import Tabs from 'components/Tabs/Tabs';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 //GraphQL
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 //Styles
-import theme from './components/theme';
+import theme from 'components/theme';
 
 const client = new ApolloClient({ uri: 'http://localhost:3005/graphql' });
 

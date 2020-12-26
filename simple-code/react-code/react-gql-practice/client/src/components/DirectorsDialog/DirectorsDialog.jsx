@@ -1,5 +1,6 @@
 //Core
 import React from 'react';
+import PropTypes from 'prop-types';
 //Material-ui components
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -46,6 +47,17 @@ const DirectorsDialog = ({ id, open, handleClose, deleteDirector }) => {
 			</DialogActions>
 		</Dialog>
 	);
+};
+
+DirectorsDialog.propTypes = {
+	id: PropTypes.string,
+	open: PropTypes.bool.isRequired,
+	handleClose: PropTypes.func.isRequired,
+	deleteDirector: PropTypes.func.isRequired,
+};
+
+DirectorsDialog.defaultProps = {
+	id: '',
 };
 
 export default withHocs(DirectorsDialog);
