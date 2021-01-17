@@ -27,3 +27,33 @@ printLabel(myOtherObj);
 // ============================================================================================
 // Interfaces - Optional Properties
 // ============================================================================================
+
+interface ISquareConfig {
+	color?: string;
+	width?: number;
+}
+
+type SquareType = {
+	color: string;
+	area: number;
+};
+
+function createSquare(config: ISquareConfig): SquareType {
+	const newSquare = { color: 'white', area: 10 };
+
+	if (config.color) {
+		newSquare.color = config.color;
+	}
+
+	if (config.width) {
+		newSquare.area = config.width * config.width;
+	}
+
+	return newSquare;
+}
+
+const mySquare = createSquare({ color: 'black' });
+
+// ============================================================================================
+// Interfaces - Readonly properties
+// ============================================================================================
