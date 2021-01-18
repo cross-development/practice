@@ -57,3 +57,27 @@ const mySquare = createSquare({ color: 'black' });
 // ============================================================================================
 // Interfaces - Readonly properties
 // ============================================================================================
+
+interface IPoint {
+	readonly x: number;
+	readonly y: number;
+}
+
+const p1: IPoint = { x: 10, y: 20 };
+// p1.x = 20; // Cannot assign to 'x' because it is a read-only property.
+
+const a: number[] = [1, 2, 3, 4, 5];
+const ro: ReadonlyArray<number> = a;
+
+// ro[0] = 10; //Index signature in type 'readonly number[]' only permits reading.
+// push, pop, shift, unshift doesn't work
+// change in length doesn't work
+
+let b: number[] = [1, 2, 3, 4, 5];
+const roO: ReadonlyArray<number> = b;
+
+b = roO as number[];
+
+// ============================================================================================
+// Excess Property Checks
+// ============================================================================================
