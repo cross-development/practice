@@ -81,3 +81,63 @@ b = roO as number[];
 // ============================================================================================
 // Excess Property Checks
 // ============================================================================================
+
+interface ISquareConfig {
+	color?: string;
+	width?: number;
+	[propName: string]: any;
+}
+
+interface IObj {
+	color: string;
+	area: number;
+}
+
+function createSomeSquare(config: ISquareConfig): IObj {
+	return {
+		color: config.color || 'red',
+		area: config.width ? config.width * config.width : 20,
+	};
+}
+
+const myLittleSquare = createSomeSquare({
+	color: 'green',
+	width: 100,
+	qwe: 10,
+});
+
+// ============================================================================================
+// Function Types
+// ============================================================================================
+
+// Defined with interface
+interface ISearchFunc {
+	(source: string, subString: string): boolean;
+}
+
+const searchFunction: ISearchFunc = function (source, subString): boolean {
+	const result = source.search(subString);
+
+	return result > -1;
+};
+
+const myTestStr = 'I love TypeScript';
+
+const resultOfSearchFunction = searchFunction(myTestStr, 'love');
+console.log(resultOfSearchFunction);
+
+// Defined with type
+type TSearchFunc = (array: number[], element: number) => boolean;
+
+const searchFunc: TSearchFunc = (arr, elem): boolean => {
+	return arr.some(item => item < elem);
+};
+
+const myTestArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+const resultOfSearchFunc = searchFunc(myTestArr, 6);
+console.log(resultOfSearchFunc);
+
+// ============================================================================================
+// Indexable Types
+// ============================================================================================
