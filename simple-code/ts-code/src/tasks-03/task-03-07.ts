@@ -1,13 +1,38 @@
-// Напиши скрипт управления личным кабинетом интернет банка.
-// Есть объект account в котором необходимо реализовать методы для работы
-// с балансом и историей транзакций.
-
-const Transaction = {
-	DEPOSIT: 'deposit',
-	WITHDRAW: 'withdraw',
+type TTransaction = {
+	id: number;
+	amount: number;
+	type: string;
 };
 
-const account = {
+type TCreateTransaction = (amount: number, type: Transaction) => TTransaction;
+
+type TDeposit = (amount: number) => void;
+
+type TWithdraw = (amount: number) => void;
+
+type TGetBalance = () => number;
+
+type TGetTransactionDetails = (id: number) => string | TTransaction;
+
+type TGetTransactionTotal = (type: string) => number;
+
+interface IAccount {
+	balance: number;
+	transactions: Array<TTransaction>;
+	createTransaction: TCreateTransaction;
+	deposit: TDeposit;
+	withdraw: TWithdraw;
+	getBalance: TGetBalance;
+	getTransactionDetails: TGetTransactionDetails;
+	getTransactionTotal: TGetTransactionTotal;
+}
+
+enum Transaction {
+	DEPOSIT = 'deposit',
+	WITHDRAW = 'withdraw',
+}
+
+const account: IAccount = {
 	balance: 0,
 
 	transactions: [],
