@@ -262,3 +262,56 @@ function example4() {
 
 	alert(func()); // 1
 }
+
+function example5() {
+	/**
+	 * Global env
+	 * Record: {}
+	 * Parent: null
+	 */
+	var a = 7;
+	/**
+	 * Global env
+	 * Record: {a: 7}
+	 * Parent: null
+	 */
+
+	// [[Environment]]: Global env
+	function test() {
+		/**
+		 * Test env
+		 * Record: {}
+		 * Parent: Global env
+		 */
+		console.log(a);
+	}
+	/**
+	 * Global env
+	 * Record: {a: 7, test: f}
+	 * Parent: null
+	 */
+
+	// [[Environment]]: Global env
+	function b() {
+		/**
+		 * B env
+		 * Record: {}
+		 * Parent: Global env
+		 */
+		var a = 10;
+		/**
+		 * B env
+		 * Record: {a: 10}
+		 * Parent: Global env
+		 */
+
+		test();
+	}
+	/**
+	 * Global env
+	 * Record: {a: 7, test: f, b: f}
+	 * Parent: null
+	 */
+
+	b();
+}
