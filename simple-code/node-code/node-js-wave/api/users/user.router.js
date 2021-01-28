@@ -1,22 +1,22 @@
-//Router
+//Core
 const { Router } = require('express');
 //Controller
-const UserController = require('./user.controller');
-//Middleware
-const userMiddleware = require('./user.middleware');
+const userController = require('./user.controller');
+//Helpers
+const validators = require('../../helpers/validators');
 
-const { validateUserId } = userMiddleware;
-const { validateCreateUser, validateUpdateUser } = userMiddleware;
-const { getUsers, createUser, updateUser, deleteUser } = UserController;
+const { getCurrentUser, updateUserSubscription, updateUserAvatar } = userController;
+const { validateId, validateUserToken, validateSub } = validators;
 
 const userRouter = Router();
 
-userRouter.get('/', getUsers);
+// @ GET /api/users/current
+userRouter.get('/current', validateUserToken, getCurrentUser);
 
-userRouter.post('/', validateCreateUser, createUser);
+// @ GET /api/users/avatars
+userRouter.patch('/avatars', validateUserToken, updateUserAvatar);
 
-userRouter.put('/:userId', validateUserId, validateUpdateUser, updateUser);
-
-userRouter.delete('/:userId', validateUserId, deleteUser);
+// @ PATCH /api/users/:id
+userRouter.patch('/:id', validateId, validateUserToken, validateSub, updateUserSubscription);
 
 module.exports = userRouter;
