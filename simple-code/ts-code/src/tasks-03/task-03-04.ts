@@ -1,38 +1,40 @@
-interface ICountTotalObj {
-	[key: string]: number;
-}
-
-type TCountTotalFunc = (obj: ICountTotalObj) => number;
-
-const countTotalSalary: TCountTotalFunc = function (employees) {
-	let totalSalary = 0;
-
-	const values: number[] = Object.values(employees);
-
-	for (const value of values) {
-		totalSalary += value;
+{
+	interface ICountTotalObj {
+		[key: string]: number;
 	}
 
-	return totalSalary;
-};
+	type TCountTotalFunc = (obj: ICountTotalObj) => number;
 
-/*
- * Вызовы функции для проверки работоспособности твоей реализации.
- */
-console.log(countTotalSalary({})); // 0
+	const countTotalSalary: TCountTotalFunc = function (employees) {
+		let totalSalary = 0;
 
-console.log(
-	countTotalSalary({
-		mango: 100,
-		poly: 150,
-		alfred: 80,
-	}),
-); // 330
+		const values: number[] = Object.values(employees);
 
-console.log(
-	countTotalSalary({
-		kiwi: 200,
-		lux: 50,
-		chelsy: 150,
-	}),
-); // 400
+		for (const value of values) {
+			totalSalary += value;
+		}
+
+		return totalSalary;
+	};
+
+	/*
+	 * Вызовы функции для проверки работоспособности твоей реализации.
+	 */
+	console.log(countTotalSalary({})); // 0
+
+	console.log(
+		countTotalSalary({
+			mango: 100,
+			poly: 150,
+			alfred: 80,
+		}),
+	); // 330
+
+	console.log(
+		countTotalSalary({
+			kiwi: 200,
+			lux: 50,
+			chelsy: 150,
+		}),
+	); // 400
+}
