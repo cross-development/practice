@@ -9,7 +9,7 @@
 
 	type TSpecs = {
 		speed: number;
-		_price: number;
+		price: number;
 		maxSpeed: number;
 		isOn: boolean;
 		distance: number;
@@ -22,9 +22,9 @@
 		public isOn: boolean;
 		public distance: number;
 
-		static getSpecs({ maxSpeed, speed, isOn, distance, _price }: TSpecs): void {
+		static getSpecs({ maxSpeed, speed, isOn, distance, price }: TSpecs): void {
 			console.log(
-				`maxSpeed: ${maxSpeed}, speed: ${speed}, isOn: ${isOn}, distance: ${distance}, price: ${_price}`,
+				`maxSpeed: ${maxSpeed}, speed: ${speed}, isOn: ${isOn}, distance: ${distance}, price: ${price}`,
 			);
 		}
 
@@ -46,7 +46,7 @@
 			return this._price;
 		}
 
-		set price(newPrice: number): void {
+		set price(newPrice: number) {
 			this._price = newPrice;
 		}
 
