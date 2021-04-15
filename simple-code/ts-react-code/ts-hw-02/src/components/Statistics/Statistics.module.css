@@ -1,0 +1,12 @@
+.list {
+	margin: 10px 0 0;
+	list-style: none;
+}
+
+.listItem:not(:last-child) {
+	margin-bottom: 5px;
+}
+
+.listItem:nth-last-child(-n + 2) {
+	font-weight: 700;
+}
