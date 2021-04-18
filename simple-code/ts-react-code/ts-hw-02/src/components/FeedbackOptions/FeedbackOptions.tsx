@@ -1,15 +1,21 @@
 //Styles
 import styles from './FeedbackOptions.module.css';
 
+enum EFeedback {
+	BAD = 'bad',
+	GOOD = 'good',
+	NEUTRAL = 'neutral',
+}
+
 type TOptions = {
-	BAD: 'bad';
-	GOOD: 'good';
-	NEUTRAL: 'neutral';
+	BAD: EFeedback.BAD;
+	GOOD: EFeedback.GOOD;
+	NEUTRAL: EFeedback.NEUTRAL;
 };
 
 interface IProps {
 	options: TOptions;
-	onLeaveFeedback: (option: string) => void;
+	onLeaveFeedback: (option: EFeedback) => void;
 }
 
 const FeedbackOptions = ({ options, onLeaveFeedback }: IProps) => {

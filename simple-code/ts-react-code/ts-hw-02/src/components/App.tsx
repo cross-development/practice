@@ -24,8 +24,12 @@ class App extends Component<{}, IState> {
 		neutral: 0,
 	};
 
-	updateFeedbackCount = (type: EFeedback): void =>
-		this.setState(prevState => ({ [type]: prevState[type] + 1 }));
+	updateFeedbackCount = (type: EFeedback): void => {
+		this.setState(
+			(prevState: IState): IState =>
+				({ [type]: prevState[type] + 1 } as Pick<IState, keyof IState>),
+		);
+	};
 
 	countTotalFeedback = (): number =>
 		this.state.good + this.state.neutral + this.state.bad;
