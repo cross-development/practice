@@ -1,0 +1,19 @@
+.filterWrapper {
+	margin-bottom: 20px;
+}
+
+.filterWrapper label {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.input {
+	color: #171718;
+	font-size: 1.1rem;
+	padding: 4px;
+	border-radius: 4px;
+	border: 1px solid #bdbdbd;
+	width: 50%;
+	outline: 0;
+}
