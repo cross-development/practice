@@ -1,10 +1,13 @@
-//Core
-import React from 'react';
-import PropTypes from 'prop-types';
+//Helpers
+import { TReview } from 'helpers/types';
 //Styles
 import styles from './ReviewsList.module.css';
 
-const ReviewsList = ({ reviewsData }) => (
+interface IProps {
+	reviewsData: TReview[];
+}
+
+const ReviewsList = ({ reviewsData }: IProps) => (
 	<ul className={styles.list}>
 		{reviewsData.map(({ id, author, content, url }) => (
 			<li key={id} className={styles.listItem}>
@@ -14,14 +17,11 @@ const ReviewsList = ({ reviewsData }) => (
 						{author}
 					</a>
 				</h3>
+
 				<p className={styles.reviews}>{content}</p>
 			</li>
 		))}
 	</ul>
 );
-
-ReviewsList.propTypes = {
-	reviewsData: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any).isRequired).isRequired,
-};
 
 export default ReviewsList;

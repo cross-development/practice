@@ -1,21 +1,35 @@
 //Core
-import React, { Component } from 'react';
+import { Component } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 //Components
-import Loader from 'components/Loader';
-import NotFound from 'components/NotFound';
-import Notification from 'components/Notification';
+import Loader from 'components/Commons/Loader';
+import NotFound from 'components/Commons/NotFound';
+import Notification from 'components/Commons/Notification';
 import ButtonGoBack from 'components/ButtonGoBack';
 import MovieDetails from 'components/MovieDetails';
 import AdditionInfo from 'components/AdditionInfo';
+//Routes
+import routes from 'router';
 //Services
 import movieApi from 'services/movieApi';
-//Routes
-import routes from 'routes';
+//Helpers
+import { TMovieDetails } from 'helpers/types';
 
-export default class MovieDetailsPage extends Component {
+type TParams = { movieId: string };
+type TLocation = { from: string };
+
+interface IProps extends RouteComponentProps<TParams, {}, TLocation | null> {}
+
+interface IState {
+	movie: TMovieDetails;
+	errorMessage: string;
+	isLoading: boolean;
+}
+
+export default class MovieDetailsPage extends Component<IProps, IState> {
 	state = {
-		movie: '',
-		error: null,
+		movie: null,
+		errorMessage: '',
 		isLoading: false,
 	};
 
@@ -26,8 +40,8 @@ export default class MovieDetailsPage extends Component {
 
 		movieApi
 			.fetchMoviesDetails(match.params.movieId)
-			.then(movie => this.setState({ movie }))
-			.catch(error => this.setState({ error }))
+			.then((movie: TMovieDetails) => this.setState({ movie }))
+			.catch((errorMessage: string) => this.setState({ errorMessage }))
 			.finally(() => this.setState({ isLoading: false }));
 	}
 
@@ -40,14 +54,11 @@ export default class MovieDetailsPage extends Component {
 	};
 
 	render() {
-		const {
-			state: { movie, error, isLoading },
-			props: { location, match },
-		} = this;
+		const { movie, errorMessage, isLoading } = this.state;
 
 		return (
 			<>
-				{error && <Notification message={error.message} />}
+				{errorMessage && <Notification message={errorMessage} />}
 
 				{isLoading && <Loader onLoad={isLoading} />}
 
@@ -59,7 +70,7 @@ export default class MovieDetailsPage extends Component {
 
 						<MovieDetails movieData={movie} />
 
-						<AdditionInfo location={location} match={match} isLoading={isLoading} />
+						<AdditionInfo {...this.props} isLoading={isLoading} />
 					</>
 				)}
 			</>

@@ -1,17 +1,21 @@
 //Core
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 //Utils
-import posterUrl from 'utils/getPosterUrl';
+import { defaultUrl } from 'utils/getPosterUrl';
 //Assets
 import defaultPoster from 'assets/default_poster.jpg';
 //Routes
-import routes from 'routes';
+import routes from 'router';
+//Helpers
+import { TMovieData } from 'helpers/types';
 //Style
 import styles from './MoviesList.module.css';
 
-const MoviesList = ({ moviesData, location }) => (
+interface IProps extends RouteComponentProps {
+	moviesData: TMovieData[];
+}
+
+const MoviesList = ({ moviesData, location }: IProps) => (
 	<ul className={styles.list}>
 		{moviesData.map(({ id, poster_path, name, title, vote_average }) => (
 			<li className={styles.listItem} key={id}>
@@ -24,7 +28,7 @@ const MoviesList = ({ moviesData, location }) => (
 				>
 					<img
 						className={styles.itemImage}
-						src={poster_path ? `${posterUrl}${poster_path}` : defaultPoster}
+						src={poster_path ? `${defaultUrl}${poster_path}` : defaultPoster}
 						alt={name || title}
 					/>
 					<span>{name || title}</span>
@@ -34,14 +38,5 @@ const MoviesList = ({ moviesData, location }) => (
 		))}
 	</ul>
 );
-
-MoviesList.defaultProps = {
-	location: {},
-};
-
-MoviesList.propTypes = {
-	location: PropTypes.objectOf(PropTypes.any),
-	moviesData: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any).isRequired).isRequired,
-};
 
 export default MoviesList;

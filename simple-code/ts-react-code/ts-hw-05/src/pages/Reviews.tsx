@@ -1,16 +1,28 @@
 //Core
-import React, { Component } from 'react';
+import { Component } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 //Components
-import Loader from 'components/Loader';
+import Loader from 'components/Commons/Loader';
 import ReviewsList from 'components/ReviewsList';
-import Notification from 'components/Notification';
+import Notification from 'components/Commons/Notification';
 //Services
 import movieApi from 'services/movieApi';
+//Helpers
+import { TReview } from 'helpers/types';
 
-export default class Reviews extends Component {
+type TParams = { movieId: string };
+
+interface IProps extends RouteComponentProps<TParams> {}
+
+interface IState {
+	reviews: TReview[];
+	errorMessage: string;
+	isLoading: boolean;
+}
+export default class Reviews extends Component<IProps, IState> {
 	state = {
 		reviews: [],
-		error: null,
+		errorMessage: '',
 		isLoading: false,
 	};
 
@@ -21,21 +33,21 @@ export default class Reviews extends Component {
 
 		movieApi
 			.fetchMoviesReviews(match.params.movieId)
-			.then(reviews => this.setState({ reviews }))
-			.catch(error => this.setState({ error }))
+			.then((reviews: TReview[]) => this.setState({ reviews }))
+			.catch((errorMessage: string) => this.setState({ errorMessage }))
 			.finally(() => this.setState({ isLoading: false }));
 	}
 
 	render() {
-		const { reviews, error, isLoading } = this.state;
+		const { reviews, errorMessage, isLoading } = this.state;
 
 		return (
 			<>
-				{error && <Notification message={error.message} />}
+				{errorMessage && <Notification message={errorMessage} />}
 
 				{isLoading && <Loader onLoad={isLoading} />}
 
-				{!isLoading && !error && reviews.length < 1 && (
+				{!isLoading && !errorMessage && reviews.length < 1 && (
 					<Notification message="We don't have any reviews for this movie." />
 				)}
 

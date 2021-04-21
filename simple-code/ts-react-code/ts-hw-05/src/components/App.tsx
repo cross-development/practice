@@ -2,9 +2,9 @@
 import { Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
 //Components
-import Layout from './Layout';
+import Layout from './Commons/Layout';
 import Header from './Header';
-import Loader from './Loader';
+import Loader from './Commons/Loader';
 //Routes
 import routes from 'router';
 //Services

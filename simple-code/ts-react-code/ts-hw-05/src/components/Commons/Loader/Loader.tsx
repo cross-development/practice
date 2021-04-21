@@ -1,6 +1,3 @@
-//Core
-import React from 'react';
-import PropTypes from 'prop-types';
 //Additional components
 import PacmanLoader from 'react-spinners/PacmanLoader';
 //Styles
@@ -24,16 +21,12 @@ const customCss = css`
 	}
 `;
 
-const Loader = ({ onLoad }) => (
+interface IProps {
+	onLoad?: boolean;
+}
+
+const Loader = ({ onLoad = false }: IProps) => (
 	<PacmanLoader size={50} color={'#f39c12'} loading={onLoad} css={customCss} />
 );
-
-Loader.defaultProps = {
-	onLoad: false,
-};
-
-Loader.propTypes = {
-	onLoad: PropTypes.bool,
-};
 
 export default Loader;

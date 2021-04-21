@@ -1,19 +1,22 @@
-//Core
-import React from 'react';
-import PropTypes from 'prop-types';
 //Utils
-import posterUrl from 'utils/getPosterUrl';
+import { defaultUrl } from 'utils/getPosterUrl';
 //Assets
 import getDefaultAvatar from 'assets/unnamed.jpg';
+//Helpers
+import { TCast } from 'helpers/types';
 //Styles
 import styles from './CastList.module.css';
 
-const CastList = ({ castsData }) => (
+interface IProps {
+	castsData: TCast[];
+}
+
+const CastList = ({ castsData }: IProps) => (
 	<ul className={styles.list}>
 		{castsData.map(({ cast_id, name, profile_path }) => (
 			<li key={cast_id} className={styles.listItem}>
 				<img
-					src={profile_path ? `${posterUrl}${profile_path}` : getDefaultAvatar}
+					src={profile_path ? `${defaultUrl}${profile_path}` : getDefaultAvatar}
 					alt={name}
 					className={styles.avatar}
 				/>
@@ -22,9 +25,5 @@ const CastList = ({ castsData }) => (
 		))}
 	</ul>
 );
-
-CastList.propTypes = {
-	castsData: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any).isRequired).isRequired,
-};
 
 export default CastList;

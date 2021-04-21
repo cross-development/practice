@@ -1,24 +1,28 @@
 //Core
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { Component, ChangeEvent, FormEvent } from 'react';
 //Components
-import Notification from '../Notification';
+import Notification from '../Commons/Notification';
 //Styles
 import styles from './SearchForm.module.css';
 
-export default class SearchForm extends Component {
-	static propTypes = {
-		onSubmit: PropTypes.func.isRequired,
-	};
+interface IProps {
+	onSubmit: (value: string) => void;
+}
 
+interface IState {
+	value: string;
+	hasError: boolean;
+}
+export default class SearchForm extends Component<IProps, IState> {
 	state = {
 		value: '',
 		hasError: false,
 	};
 
-	handleChange = ({ target: { value } }) => this.setState({ value });
+	handleChange = ({ target: { value } }: ChangeEvent<HTMLInputElement>): void =>
+		this.setState({ value });
 
-	handleSubmit = e => {
+	handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
 		e.preventDefault();
 
 		const { value } = this.state;

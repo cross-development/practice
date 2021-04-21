@@ -1,17 +1,30 @@
-//Core
-import React from 'react';
-import PropTypes from 'prop-types';
 //Utils
-import posterUrl from 'utils/getPosterUrl';
+import { defaultUrl } from 'utils/getPosterUrl';
 //Assets
 import defaultPoster from 'assets/default_poster.jpg';
+//Helpers
+import { TMovieDetails } from 'helpers/types';
 //Styles
 import styles from './MovieDetails.module.css';
 
-const MovieDetails = ({ movieData }) => {
-	const { poster_path, title, name, release_date, popularity, overview, genres } = movieData;
+interface IProps {
+	movieData: TMovieDetails;
+}
 
-	const posterPath = poster_path ? `${posterUrl}${poster_path}` : defaultPoster;
+const MovieDetails = ({ movieData }: IProps) => {
+	const {
+		poster_path,
+		title,
+		name,
+		release_date,
+		popularity,
+		overview,
+		genres,
+	} = movieData;
+
+	const posterPath = poster_path
+		? `${defaultUrl}${poster_path}`
+		: defaultPoster;
 	const genresList = genres.map(({ name }) => `${name} `);
 	const releaseDate = release_date.substring(0, 4);
 	const userScore = Math.round(popularity);
@@ -35,10 +48,6 @@ const MovieDetails = ({ movieData }) => {
 			</div>
 		</div>
 	);
-};
-
-MovieDetails.propTypes = {
-	movieData: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default MovieDetails;

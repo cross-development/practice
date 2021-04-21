@@ -1,8 +1,10 @@
 //Packages
-import queryString, { ParsedQuery } from 'query-string';
+import queryString from 'query-string';
 
-function getQueryString(query: string): ParsedQuery<string> {
-	return queryString.parse(query);
+function getQueryString(query: string): string {
+	const parsedQuery = queryString.parse(query);
+
+	return queryString.stringify(parsedQuery);
 }
 
 export { getQueryString };

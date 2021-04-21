@@ -1,16 +1,29 @@
 //Core
-import React, { Component } from 'react';
+import { Component } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 //Components
-import Loader from 'components/Loader';
+import Loader from 'components/Commons/Loader';
 import CastList from 'components/CastList';
-import Notification from 'components/Notification';
+import Notification from 'components/Commons/Notification';
 //Services
 import movieApi from 'services/movieApi';
+//Helpers
+import { TCast } from 'helpers/types';
 
-export default class Cast extends Component {
+type TParams = { movieId: string };
+
+interface IProps extends RouteComponentProps<TParams> {}
+
+interface IState {
+	casts: TCast[];
+	errorMessage: string;
+	isLoading: boolean;
+}
+
+export default class Cast extends Component<IProps, IState> {
 	state = {
 		casts: [],
-		error: null,
+		errorMessage: '',
 		isLoading: false,
 	};
 
@@ -21,21 +34,21 @@ export default class Cast extends Component {
 
 		movieApi
 			.fetchMoviesByCast(match.params.movieId)
-			.then(casts => this.setState({ casts }))
-			.catch(error => this.setState({ error }))
+			.then((casts: TCast[]) => this.setState({ casts }))
+			.catch((errorMessage: string) => this.setState({ errorMessage }))
 			.finally(() => this.setState({ isLoading: false }));
 	}
 
 	render() {
-		const { casts, error, isLoading } = this.state;
+		const { casts, errorMessage, isLoading } = this.state;
 
 		return (
 			<>
-				{error && <Notification message={error.message} />}
+				{errorMessage && <Notification message={errorMessage} />}
 
 				{isLoading && <Loader onLoad={isLoading} />}
 
-				{!isLoading && !error && casts.length < 1 && (
+				{!isLoading && !errorMessage && casts.length < 1 && (
 					<Notification message="We don't have any actors for this movie." />
 				)}
 

@@ -1,16 +1,27 @@
 //Core
-import React, { Component } from 'react';
+import { Component } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 //Components
-import Loader from 'components/Loader';
+import Loader from 'components/Commons/Loader';
 import MoviesList from 'components/MoviesList';
-import Notification from 'components/Notification';
+import Notification from 'components/Commons/Notification';
 //Services
 import movieApi from 'services/movieApi';
+//Helpers
+import { TMovieData } from 'helpers/types';
 
-export default class HomePage extends Component {
+interface IProps extends RouteComponentProps {}
+
+interface IState {
+	movies: TMovieData[];
+	errorMessage: string;
+	isLoading: boolean;
+}
+
+export default class HomePage extends Component<IProps, IState> {
 	state = {
 		movies: [],
-		error: null,
+		errorMessage: '',
 		isLoading: false,
 	};
 
@@ -20,23 +31,22 @@ export default class HomePage extends Component {
 		movieApi
 			.fetchTrendMovies()
 			.then(movies => this.setState({ movies }))
-			.catch(error => this.setState({ error }))
+			.catch(errorMessage => this.setState({ errorMessage }))
 			.finally(() => this.setState({ isLoading: false }));
 	}
 
 	render() {
-		const {
-			state: { movies, error, isLoading },
-			props: { location },
-		} = this;
+		const { movies, errorMessage, isLoading } = this.state;
 
 		return (
 			<>
-				{error && <Notification message={error.message} />}
+				{errorMessage && <Notification message={errorMessage} />}
 
 				{isLoading && <Loader onLoad={isLoading} />}
 
-				{!isLoading && movies.length > 0 && <MoviesList location={location} moviesData={movies} />}
+				{!isLoading && movies.length > 0 && (
+					<MoviesList {...this.props} moviesData={movies} />
+				)}
 			</>
 		);
 	}
