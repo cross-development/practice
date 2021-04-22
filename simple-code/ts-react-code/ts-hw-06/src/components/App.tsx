@@ -1,5 +1,5 @@
 //Core
-import React, { Component } from 'react';
+import React, { Component, ChangeEvent } from 'react';
 import { CSSTransition } from 'react-transition-group';
 //Components
 import Filter from '../Filter';
@@ -10,7 +10,7 @@ import ContactForm from '../ContactForm';
 import Notification from '../Notification';
 import ThemeSwitcher from '../ThemeSwitcher';
 //Utils
-import { v4 as uuid } from 'uuid';
+import crypto from 'crypto';
 //Styles
 import fadeFilter from 'animation/fadeFilter.module.css';
 import fadeHeading from 'animation/fadeHeading.module.css';
@@ -48,7 +48,7 @@ export class App extends Component {
 		}
 
 		const contact = {
-			id: uuid(),
+			id: crypto.randomBytes(16).toString('hex'),
 			name,
 			number,
 		};
@@ -77,7 +77,9 @@ export class App extends Component {
 		}));
 	};
 
-	handleChangeFilter = filter => this.setState({ filter });
+	handleChangeFilter = ({
+		target: { value },
+	}: ChangeEvent<HTMLInputElement>): void => this.setState({ filter: value });
 
 	render() {
 		const { contacts, filter, isNotice } = this.state;

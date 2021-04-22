@@ -1,9 +1,15 @@
 //HOC
 import withTheme from 'helpers/hoc/withTheme';
+//Helpers
+import { IContext } from 'helpers/interfaces';
 //Styles
 import styles from './ThemeSwitcher.module.css';
 
-const ThemeSwitcher = ({ ctxTheme }) => {
+interface IProps {
+	ctxTheme: IContext;
+}
+
+const ThemeSwitcher = ({ ctxTheme }: IProps) => {
 	const { theme, onToggleTheme } = ctxTheme;
 
 	return (

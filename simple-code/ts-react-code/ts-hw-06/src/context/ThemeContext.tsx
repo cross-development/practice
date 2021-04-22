@@ -1,7 +1,15 @@
 //Core
-import React, { Component, createContext } from 'react';
+import React, { Component, createContext, ReactNode } from 'react';
+//Helpers
+import { IContext } from 'helpers/interfaces';
 
-const Context = createContext();
+interface IProps {
+	children: ReactNode;
+}
+
+interface IState extends IContext {}
+
+const Context = createContext<IContext | null>(null);
 
 const themeConfig = {
 	light: {
@@ -16,7 +24,7 @@ const themeConfig = {
 	},
 };
 
-export default class ThemeContext extends Component {
+export default class ThemeContext extends Component<IProps, IState> {
 	static Consumer = Context.Consumer;
 
 	componentDidMount() {
@@ -27,21 +35,26 @@ export default class ThemeContext extends Component {
 		}
 	}
 
-	componentDidUpdate(prevProps, prevState) {
+	componentDidUpdate(prevProps: IProps, prevState: IState) {
 		if (prevState.theme !== this.state.theme) {
 			localStorage.setItem('theme', JSON.stringify(this.state.theme));
 		}
 	}
 
-	toggleTheme = () => this.setState({ theme: this.state.theme === 'dark' ? 'light' : 'dark' });
+	toggleTheme = (): void =>
+		this.setState({ theme: this.state.theme === 'dark' ? 'light' : 'dark' });
 
-	state = {
+	state: IState = {
 		theme: 'light',
 		themeStyle: themeConfig,
 		onToggleTheme: this.toggleTheme,
 	};
 
 	render() {
-		return <Context.Provider value={this.state}>{this.props.children}</Context.Provider>;
+		return (
+			<Context.Provider value={this.state}>
+				{this.props.children}
+			</Context.Provider>
+		);
 	}
 }

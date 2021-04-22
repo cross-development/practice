@@ -1,20 +1,34 @@
 //Core
-import { Component } from 'react';
+import { Component, ChangeEvent, FormEvent } from 'react';
 //HOC
 import withTheme from 'helpers/hoc/withTheme';
+//Helpers
+import { IContext } from 'helpers/interfaces';
 //Styles
 import styles from './ContactForm.module.css';
 
-export class ContactForm extends Component {
+interface IProps {
+	ctxTheme: IContext;
+	onAddContact: (name: string, number: string) => void;
+}
+
+interface IState {
+	name: string;
+	number: string;
+}
+
+export class ContactForm extends Component<IProps, IState> {
 	state = {
 		name: '',
 		number: '',
 	};
 
-	handleChange = ({ target: { name, value } }) =>
-		this.setState({ [name]: value });
+	handleChange = ({
+		target: { name, value },
+	}: ChangeEvent<HTMLInputElement>): void =>
+		this.setState({ [name]: value } as Pick<IState, keyof IState>);
 
-	handleSubmit = e => {
+	handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
 		e.preventDefault();
 
 		this.props.onAddContact(this.state.name, this.state.number);
