@@ -1,14 +1,13 @@
 //Core
-import React, { Component, ChangeEvent } from 'react';
+import { Component, ChangeEvent } from 'react';
 import { CSSTransition } from 'react-transition-group';
 //Components
-import Filter from '../Filter';
-import Heading from '../Heading';
-import Section from '../Section';
-import ContactList from '../ContactList';
-import ContactForm from '../ContactForm';
-import Notification from '../Notification';
-import ThemeSwitcher from '../ThemeSwitcher';
+import Filter from './Filter';
+import ContactList from './ContactList';
+import ContactForm from './ContactForm';
+import { Heading, Notification, Section, ThemeSwitcher } from './Commons';
+//Helpers
+import { TContact } from 'helpers/types';
 //Utils
 import crypto from 'crypto';
 //Styles
@@ -16,8 +15,14 @@ import fadeFilter from 'animation/fadeFilter.module.css';
 import fadeHeading from 'animation/fadeHeading.module.css';
 import fadeNotification from 'animation/fadeNotification.module.css';
 
-export class App extends Component {
-	state = {
+interface IState {
+	filter: string;
+	contacts: TContact[];
+	isNotice: boolean;
+}
+
+export class App extends Component<{}, IState> {
+	state: IState = {
 		filter: '',
 		contacts: [],
 		isNotice: false,
@@ -31,20 +36,21 @@ export class App extends Component {
 		}
 	}
 
-	componentDidUpdate(prevProps, prevState) {
+	componentDidUpdate(prevProps: {}, prevState: IState) {
 		if (prevState.contacts !== this.state.contacts) {
 			localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
 		}
 	}
 
-	addContact = (name, number) => {
+	addContact = (name: string, number: string): void => {
 		const isContactExists = this.state.contacts.find(
 			contact => contact.name.toLowerCase() === name.toLowerCase(),
 		);
 
 		if (isContactExists) {
 			this.setState({ isNotice: true });
-			return this.setNotificationTimeout(2000);
+			this.setNotificationTimeout(2000);
+			return;
 		}
 
 		const contact = {
@@ -58,11 +64,11 @@ export class App extends Component {
 		}));
 	};
 
-	setNotificationTimeout = delay => {
+	setNotificationTimeout = (delay: number): void => {
 		setTimeout(() => this.setState({ isNotice: false }), delay);
 	};
 
-	getVisibleContacts = () => {
+	getVisibleContacts = (): TContact[] => {
 		const { contacts, filter } = this.state;
 
 		return contacts.filter(({ name }) =>
@@ -70,7 +76,7 @@ export class App extends Component {
 		);
 	};
 
-	removeContactById = contactId => {
+	removeContactById = (contactId: string): void => {
 		this.setState(prevState => ({
 			contacts: prevState.contacts.filter(({ id }) => id !== contactId),
 			filter: '',
