@@ -1,0 +1,11 @@
+/*
+	APP LOGO ANIMATION (use in App.js) - APPEAR
+*/
+.appear {
+	transform: scale(0.1);
+}
+
+.appearActive {
+	transform: scale(1);
+	transition: all 500ms linear;
+}

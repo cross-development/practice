@@ -1,0 +1,28 @@
+/*
+	CONTACT LIST ITEM ANIMATION (use in ContactList.js) - ENTER AND EXIT
+*/
+.enter {
+	opacity: 0;
+	/* transform: translateX(-100%); */
+	transform: scale(0.1);
+}
+
+.enterActive {
+	opacity: 1;
+	/* transform: translateX(0); */
+	transform: scale(1);
+	transition: all 250ms ease-in-out;
+}
+
+.exit {
+	opacity: 1;
+	/* transform: translateX(0); */
+	transform: scale(1);
+}
+
+.exitActive {
+	opacity: 0;
+	/* transform: translateX(-100%); */
+	transform: scale(0.1);
+	transition: all 250ms ease-in-out;
+}

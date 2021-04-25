@@ -1,0 +1,22 @@
+.authContainer {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.link {
+	display: inline-block;
+	text-decoration: none;
+
+	font-weight: 700;
+	text-transform: uppercase;
+	color: #212121;
+}
+
+.link:first-child {
+	margin-right: 30px;
+}
+
+.activeLink {
+	color: #3947a7;
+}
