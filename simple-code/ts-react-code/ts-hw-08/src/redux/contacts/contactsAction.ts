@@ -1,60 +1,29 @@
 //Redux
-import { createAction } from '@reduxjs/toolkit';
+import { ADD, REMOVE, FILTER, TContactActions } from './contactsActionTypes';
 //Utils
-import { v4 as uuidv4 } from 'uuid';
+import crypto from 'crypto';
 
-const addContact = createAction('contacts/add', (name, number) => ({
+const addContact = (name: string, number: string): TContactActions => ({
+	type: ADD,
 	payload: {
 		contact: {
-			id: uuidv4(),
+			id: crypto.randomBytes(16).toString('hex'),
 			name,
 			number,
 		},
 	},
-}));
+});
 
-const removeContact = createAction('contacts/remove');
+const removeContact = (contactId: string): TContactActions => ({
+	type: REMOVE,
+	payload: { contactId },
+});
 
-const changeFilter = createAction('contacts/changeFilter');
+const changeFilter = (filter: string): TContactActions => ({
+	type: FILTER,
+	payload: { filter },
+});
 
-export default {
-	addContact,
-	removeContact,
-	changeFilter,
-};
+const contactActions = { addContact, removeContact, changeFilter };
 
-//ДО РЕФАКТОРИНГА
-//
-// import { v4 as uuidv4 } from 'uuid';
-// import actionTypes from './contactsActionTypes';
-
-// const addContact = (name, number) => ({
-// 	type: actionTypes.ADD,
-// 	payload: {
-// 		contact: {
-// 			id: uuidv4(),
-// 			name,
-// 			number,
-// 		},
-// 	},
-// });
-
-// const removeContact = contactId => ({
-// 	type: actionTypes.REMOVE,
-// 	payload: {
-// 		contactId,
-// 	},
-// });
-
-// const changeFilter = filter => ({
-// 	type: actionTypes.CHANGE_FILTER,
-// 	payload: {
-// 		filter,
-// 	},
-// });
-
-// export default {
-// 	addContact,
-// 	removeContact,
-// 	changeFilter,
-// };
+export default contactActions;
