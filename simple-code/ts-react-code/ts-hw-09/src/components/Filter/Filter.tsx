@@ -1,34 +1,43 @@
 //Core
-import React from 'react';
-import PropTypes from 'prop-types';
+import { ChangeEvent } from 'react';
 //Redux
 import { connect } from 'react-redux';
 import { contactsSelectors } from 'redux/contacts';
 import contactsActions from 'redux/contacts/contactsActions';
+//Helpers
+import { IStoreState } from 'helpers/ts-helpers';
 //Styles
 import styles from './Filter.module.css';
 
-const Filter = ({ value, onChangeFilter }) => (
-	<div className={styles.filterWrapper}>
-		<label>
-			Find contacts by name
-			<input
-				className={styles.input}
-				type="text"
-				autoComplete="off"
-				value={value}
-				onChange={e => onChangeFilter(e.target.value)}
-			/>
-		</label>
-	</div>
-);
+interface IProps {
+	value: string;
+	onChangeFilter: (value: string) => void;
+}
 
-Filter.propTypes = {
-	value: PropTypes.string.isRequired,
-	onChangeFilter: PropTypes.func.isRequired,
+const Filter = ({ value, onChangeFilter }: IProps) => {
+	const handleChange = ({
+		target: { value },
+	}: ChangeEvent<HTMLInputElement>): void => {
+		onChangeFilter(value);
+	};
+
+	return (
+		<div className={styles.filterWrapper}>
+			<label>
+				Find contacts by name
+				<input
+					type="text"
+					value={value}
+					autoComplete="off"
+					onChange={handleChange}
+					className={styles.input}
+				/>
+			</label>
+		</div>
+	);
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: IStoreState) => ({
 	value: contactsSelectors.getFilter(state),
 });
 

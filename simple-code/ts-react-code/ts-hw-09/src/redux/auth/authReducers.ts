@@ -9,25 +9,25 @@ const initialUserState = { name: null, email: null };
 
 //User reducer
 const user = createReducer(initialUserState, {
-	[authActions.getCurrentUserSuccess]: (state, { payload }) => payload,
-	[authActions.registerSuccess]: (state, { payload }) => payload.user,
-	[authActions.loginSuccess]: (state, { payload }) => payload.user,
-	[authActions.logoutSuccess]: () => initialUserState,
+	[authActions.getCurrentUserSuccess.type]: (state, { payload }) => payload,
+	[authActions.registerSuccess.type]: (state, { payload }) => payload.user,
+	[authActions.loginSuccess.type]: (state, { payload }) => payload.user,
+	[authActions.logoutSuccess.type]: () => initialUserState,
 });
 
 //Token reducer
-const token = createReducer(null, {
-	[authActions.registerSuccess]: (state, { payload }) => payload.token,
-	[authActions.loginSuccess]: (state, { payload }) => payload.token,
-	[authActions.logoutSuccess]: () => null,
+const token = createReducer('', {
+	[authActions.registerSuccess.type]: (state, { payload }) => payload.token,
+	[authActions.loginSuccess.type]: (state, { payload }) => payload.token,
+	[authActions.logoutSuccess.type]: () => '',
 });
 
 //Error reducer
 const error = createReducer(null, {
-	[authActions.getCurrentUserFailure]: (state, { payload }) => payload,
-	[authActions.registerFailure]: (state, { payload }) => payload,
-	[authActions.logoutFailure]: (state, { payload }) => payload,
-	[authActions.loginFailure]: (state, { payload }) => payload,
+	[authActions.getCurrentUserFailure.type]: (state, { payload }) => payload,
+	[authActions.registerFailure.type]: (state, { payload }) => payload,
+	[authActions.logoutFailure.type]: (state, { payload }) => payload,
+	[authActions.loginFailure.type]: (state, { payload }) => payload,
 });
 
 export default combineReducers({

@@ -1,13 +1,15 @@
 //Core
 import { createSelector } from '@reduxjs/toolkit';
+//Helpers
+import { IStoreState } from 'helpers/ts-helpers';
 
-const getContacts = state => state.contacts.items;
+const getContacts = (state: IStoreState) => state.contacts.items;
 
-const getFilter = state => state.contacts.filter;
+const getFilter = (state: IStoreState) => state.contacts.filter;
 
-const getContactId = (state, contactId) => contactId;
+const getContactId = (state: IStoreState, contactId: string) => contactId;
 
-const getLoading = state => state.contacts.loading;
+const getLoading = (state: IStoreState) => state.contacts.loading;
 
 const getVisibleContacts = createSelector(
 	[getContacts, getFilter],

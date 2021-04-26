@@ -1,20 +1,27 @@
 //Core
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 //Redux
+import { Dispatch } from 'redux';
 import contactsActions from './contactsActions';
+//Helpers
+import { TContact } from 'helpers/ts-helpers';
 
 axios.defaults.baseURL = 'https://goit-phonebook-api.herokuapp.com';
 
-const addContact = credential => dispatch => {
+type TCredential = { name: string; number: string };
+
+const addContact = (credential: TCredential) => (dispatch: Dispatch) => {
 	dispatch(contactsActions.addContactRequest());
 
 	axios
 		.post('/contacts', credential)
-		.then(({ data }) => dispatch(contactsActions.addContactSuccess(data)))
+		.then(({ data }: AxiosResponse<TContact>) =>
+			dispatch(contactsActions.addContactSuccess(data)),
+		)
 		.catch(error => dispatch(contactsActions.addContactFailure(error)));
 };
 
-const removeContact = id => dispatch => {
+const removeContact = (id: string) => (dispatch: Dispatch) => {
 	dispatch(contactsActions.removeContactRequest());
 
 	axios
@@ -23,12 +30,14 @@ const removeContact = id => dispatch => {
 		.catch(error => dispatch(contactsActions.removeContactFailure(error)));
 };
 
-const getContacts = () => dispatch => {
+const getContacts = () => (dispatch: Dispatch) => {
 	dispatch(contactsActions.getContactsRequest());
 
 	axios
 		.get('/contacts')
-		.then(({ data }) => dispatch(contactsActions.getContactsSuccess(data)))
+		.then(({ data }: AxiosResponse<TContact[]>) =>
+			dispatch(contactsActions.getContactsSuccess(data)),
+		)
 		.catch(error => dispatch(contactsActions.getContactsFailure(error)));
 };
 

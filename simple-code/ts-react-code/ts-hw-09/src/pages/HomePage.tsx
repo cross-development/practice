@@ -1,12 +1,10 @@
-//Core
-import React from 'react';
 //Components
 import { Main } from 'components/Commons';
 
-const HomeView = () => (
+const HomePage = () => (
 	<Main>
 		<h1>Welcome to Phonebook :)</h1>
 	</Main>
 );
 
-export default HomeView;
+export default HomePage;

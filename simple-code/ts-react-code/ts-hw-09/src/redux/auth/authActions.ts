@@ -1,21 +1,22 @@
 //Core
 import { createAction } from '@reduxjs/toolkit';
+import { IAuth, TUser } from 'helpers/ts-helpers';
 
 const registerRequest = createAction('auth/registerRequest');
-const registerSuccess = createAction('auth/registerSuccess');
-const registerFailure = createAction('auth/registerFailure');
+const registerSuccess = createAction<IAuth>('auth/registerSuccess');
+const registerFailure = createAction<Error>('auth/registerFailure');
 
 const loginRequest = createAction('auth/loginRequest');
-const loginSuccess = createAction('auth/loginSuccess');
-const loginFailure = createAction('auth/loginFailure');
+const loginSuccess = createAction<IAuth>('auth/loginSuccess');
+const loginFailure = createAction<Error>('auth/loginFailure');
 
 const logoutRequest = createAction('auth/logoutRequest');
 const logoutSuccess = createAction('auth/logoutSuccess');
-const logoutFailure = createAction('auth/logoutFailure');
+const logoutFailure = createAction<Error>('auth/logoutFailure');
 
 const getCurrentUserRequest = createAction('auth/getCurrentUserRequest');
-const getCurrentUserSuccess = createAction('auth/getCurrentUserSuccess');
-const getCurrentUserFailure = createAction('auth/getCurrentUserFailure');
+const getCurrentUserSuccess = createAction<TUser>('auth/getCurrentUserSuccess');
+const getCurrentUserFailure = createAction<Error>('auth/getCurrentUserFailure');
 
 const authActions = {
 	registerRequest,

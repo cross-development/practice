@@ -4,48 +4,32 @@ import { createReducer } from '@reduxjs/toolkit';
 //Redux
 import contactsActions from './contactsActions';
 
-//Items initial state
-const initialItemsState = [];
-
-//Items reducer handler
-const getContacts = (state, { payload }) => payload;
-const addContact = (state, { payload }) => [...state, payload];
-const removeContact = (state, { payload }) => state.filter(({ id }) => id !== payload);
-
-//Items reducer
-const items = createReducer(initialItemsState, {
-	[contactsActions.getContactsSuccess]: getContacts,
-	[contactsActions.addContactSuccess]: addContact,
-	[contactsActions.removeContactSuccess]: removeContact,
+const items = createReducer([], {
+	[contactsActions.getContactsSuccess.type]: (state, { payload }) => payload,
+	[contactsActions.addContactSuccess.type]: (state, { payload }) => [
+		...state,
+		payload,
+	],
+	[contactsActions.removeContactSuccess.type]: (state, { payload }) =>
+		state.filter(({ id }) => id !== payload),
 });
 
-//Filter initial state
-const initialFilterState = '';
-
-//Filter reducer handler
-const changeFilter = (state, { payload }) => payload;
-
-//Filter reducer
-const filter = createReducer(initialFilterState, {
-	[contactsActions.changeFilter]: changeFilter,
+const filter = createReducer('', {
+	[contactsActions.changeFilter.type]: (state, { payload }) => payload,
 });
 
-//Loading initial state
-const initialLoadingState = false;
+const loading = createReducer(false, {
+	[contactsActions.getContactsRequest.type]: () => true,
+	[contactsActions.getContactsSuccess.type]: () => false,
+	[contactsActions.getContactsFailure.type]: () => false,
 
-//Loading reducer
-const loading = createReducer(initialLoadingState, {
-	[contactsActions.getContactsRequest]: () => true,
-	[contactsActions.getContactsSuccess]: () => initialLoadingState,
-	[contactsActions.getContactsFailure]: () => initialLoadingState,
+	[contactsActions.addContactRequest.type]: () => true,
+	[contactsActions.addContactSuccess.type]: () => false,
+	[contactsActions.addContactFailure.type]: () => false,
 
-	[contactsActions.addContactRequest]: () => true,
-	[contactsActions.addContactSuccess]: () => initialLoadingState,
-	[contactsActions.addContactFailure]: () => initialLoadingState,
-
-	[contactsActions.removeContactRequest]: () => true,
-	[contactsActions.removeContactSuccess]: () => initialLoadingState,
-	[contactsActions.removeContactFailure]: () => initialLoadingState,
+	[contactsActions.removeContactRequest.type]: () => true,
+	[contactsActions.removeContactSuccess.type]: () => false,
+	[contactsActions.removeContactFailure.type]: () => false,
 });
 
 export default combineReducers({

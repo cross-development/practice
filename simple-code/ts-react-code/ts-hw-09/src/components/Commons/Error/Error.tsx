@@ -1,17 +1,14 @@
-//Core
-import React from 'react';
-import PropTypes from 'prop-types';
 //Styles
 import styles from './Error.module.css';
 
-const Error = ({ message }) => (
+interface IProps {
+	message: string;
+}
+
+const Error = ({ message }: IProps) => (
 	<div className={styles.errorWrapper}>
 		<p className={styles.errorText}>{message}</p>
 	</div>
 );
-
-Error.propTypes = {
-	message: PropTypes.string.isRequired,
-};
 
 export default Error;

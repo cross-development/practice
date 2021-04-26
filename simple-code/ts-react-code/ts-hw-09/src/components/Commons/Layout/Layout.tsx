@@ -1,20 +1,19 @@
 //Core
-import React from 'react';
-import PropTypes from 'prop-types';
+import { ReactNode } from 'react';
 //Components
-import AppBar from '../../Header/AppBar';
+import AppBar from 'components/Header/AppBar';
 //Styles
 import styles from './Layout.module.css';
 
-const Layout = ({ children }) => (
+interface IProps {
+	children: ReactNode;
+}
+
+const Layout = ({ children }: IProps) => (
 	<div className={styles.container}>
 		<AppBar />
 		{children}
 	</div>
 );
-
-Layout.propTypes = {
-	children: PropTypes.node.isRequired,
-};
 
 export default Layout;

@@ -1,5 +1,3 @@
-//Core
-import React from 'react';
 //Styles
 import styles from './Notification.module.css';
 

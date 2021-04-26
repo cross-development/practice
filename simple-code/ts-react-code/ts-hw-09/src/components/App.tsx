@@ -1,6 +1,5 @@
 //Core
-import React, { Component, Suspense } from 'react';
-import PropTypes from 'prop-types';
+import { Component, Suspense } from 'react';
 import { BrowserRouter, Switch } from 'react-router-dom';
 //Components
 import { Loader, Layout } from './Commons';
@@ -12,11 +11,11 @@ import PrivateRoute from 'routes/PrivateRoute';
 import { connect } from 'react-redux';
 import { authOperations } from 'redux/auth';
 
-export class App extends Component {
-	static propTypes = {
-		onGetCurrentUser: PropTypes.func.isRequired,
-	};
+interface IProps {
+	onGetCurrentUser: () => void;
+}
 
+export class App extends Component<IProps, {}> {
 	componentDidMount() {
 		this.props.onGetCurrentUser();
 	}

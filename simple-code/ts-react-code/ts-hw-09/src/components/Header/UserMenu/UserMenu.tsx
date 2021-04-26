@@ -1,12 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 //Redux
 import { connect } from 'react-redux';
 import { authOperations, authSelectors } from 'redux/auth';
+//Helpers
+import { IStoreState } from 'helpers/ts-helpers';
 //Styles
 import styles from './UserMenu.module.css';
 
-const UserMenu = ({ email, onLogout }) => (
+interface IProps {
+	email: string;
+	onLogout: () => void;
+}
+
+const UserMenu = ({ email, onLogout }: IProps) => (
 	<div className={styles.container}>
 		<span className={styles.email}>Welcome, {email}</span>
 		<button className={styles.button} type="button" onClick={onLogout}>
@@ -15,12 +20,7 @@ const UserMenu = ({ email, onLogout }) => (
 	</div>
 );
 
-UserMenu.propTypes = {
-	email: PropTypes.string.isRequired,
-	onLogout: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state: IStoreState) => ({
 	email: authSelectors.getUserEmail(state),
 });
 

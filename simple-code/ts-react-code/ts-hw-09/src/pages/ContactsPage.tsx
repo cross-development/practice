@@ -1,27 +1,22 @@
 //Core
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { Component } from 'react';
 //Components
 import Filter from 'components/Filter';
-import { Section, Main } from 'components/Commons';
 import ContactList from 'components/ContactList';
 import ContactForm from 'components/ContactForm';
+import { Section, Main } from 'components/Commons';
 //Redux
 import { connect } from 'react-redux';
 import { contactsOperations, contactsSelectors } from 'redux/contacts';
+//Helpers
+import { IStoreState, TContact } from 'helpers/ts-helpers';
 
-class ContactsView extends Component {
-	static propTypes = {
-		onGetContacts: PropTypes.func.isRequired,
-		contacts: PropTypes.arrayOf(
-			PropTypes.shape({
-				id: PropTypes.string.isRequired,
-				name: PropTypes.string.isRequired,
-				number: PropTypes.string.isRequired,
-			}).isRequired,
-		).isRequired,
-	};
+interface IProps {
+	contacts: TContact[];
+	onGetContacts: () => void;
+}
 
+class ContactsPage extends Component<IProps, {}> {
 	componentDidMount() {
 		this.props.onGetContacts();
 	}
@@ -46,7 +41,7 @@ class ContactsView extends Component {
 	}
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: IStoreState) => ({
 	contacts: contactsSelectors.getContacts(state),
 });
 
@@ -54,4 +49,4 @@ const mapDispatchToProps = {
 	onGetContacts: contactsOperations.getContacts,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactsView);
+export default connect(mapStateToProps, mapDispatchToProps)(ContactsPage);

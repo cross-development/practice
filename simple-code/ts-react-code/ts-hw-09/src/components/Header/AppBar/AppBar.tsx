@@ -1,21 +1,22 @@
-//Core
-import React from 'react';
-import PropTypes from 'prop-types';
 //Components
-import Logo from '../Logo';
-import AuthNav from '../AuthNav';
-import UserMenu from '../UserMenu';
-import Navigation from '../Navigation';
 import { Loader } from 'components/Commons';
+import { Logo, AuthNav, UserMenu, Navigation } from 'components/Header';
 //Redux
 import { connect } from 'react-redux';
 import { authSelectors } from 'redux/auth';
+//Helpers
+import { IStoreState } from 'helpers/ts-helpers';
 //Styles
 import styles from './AppBar.module.css';
 import fadeLogo from 'animation/fadeLogo.module.css';
 import { CSSTransition } from 'react-transition-group';
 
-const AppBar = ({ isAuthenticated, getUser }) => (
+interface IProps {
+	isAuthenticated: string | null;
+	getUser: string;
+}
+
+const AppBar = ({ isAuthenticated = null, getUser }: IProps) => (
 	<header className={styles.header}>
 		<CSSTransition
 			in={true}
@@ -34,15 +35,7 @@ const AppBar = ({ isAuthenticated, getUser }) => (
 	</header>
 );
 
-AppBar.defaultProps = {
-	isAuthenticated: null,
-};
-
-AppBar.propTypes = {
-	isAuthenticated: PropTypes.string,
-};
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state: IStoreState) => ({
 	getUser: authSelectors.getUserEmail(state),
 	isAuthenticated: authSelectors.isAuthenticated(state),
 });

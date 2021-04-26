@@ -1,5 +1,3 @@
-//Core
-import React from 'react';
 //Additional components
 import BeatLoader from 'react-spinners/BeatLoader';
 //Styles
@@ -11,6 +9,8 @@ const customCss = css`
 	text-align: center;
 `;
 
-const Loader = () => <BeatLoader size={20} color={'#1e3799'} loading={true} css={customCss} />;
+const Loader = () => (
+	<BeatLoader size={20} color={'#1e3799'} loading={true} css={customCss} />
+);
 
 export default Loader;

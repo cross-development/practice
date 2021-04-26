@@ -4,6 +4,8 @@ import { Route, Redirect } from 'react-router-dom';
 //Redux
 import { connect } from 'react-redux';
 import { authSelectors } from 'redux/auth';
+//Helpers
+import { IStoreState } from 'helpers/ts-helpers';
 
 const PublicRoute = ({ component: Component, isAuth, ...routeProps }) => (
 	<Route
@@ -18,7 +20,7 @@ const PublicRoute = ({ component: Component, isAuth, ...routeProps }) => (
 	/>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: IStoreState) => ({
 	isAuth: authSelectors.isAuthenticated(state),
 });
 

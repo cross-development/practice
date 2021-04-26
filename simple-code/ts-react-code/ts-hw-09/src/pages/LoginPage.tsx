@@ -1,41 +1,45 @@
 //Core
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { Component, ChangeEvent, FormEvent } from 'react';
 //Components
 import { Error } from 'components/Commons';
 import { Login } from 'components/Auth';
 //Redux
 import { connect } from 'react-redux';
 import { authOperations, authSelectors } from 'redux/auth';
+//Helpers
+import { IStoreState } from 'helpers/ts-helpers';
 
-class LoginView extends Component {
-	static propTypes = {
-		onLogin: PropTypes.func.isRequired,
-		hasError: PropTypes.object,
-	};
+interface IProps {
+	hasError: any | null;
+	onLogin: ({ email, password }: IState) => void;
+}
 
-	static defaultProps = {
-		hasError: null,
-	};
+interface IState {
+	email: string;
+	password: string;
+}
 
+class LoginPage extends Component<IProps, IState> {
 	state = {
 		email: '',
 		password: '',
 	};
 
-	handleChange = ({ target: { name, value } }) =>
-		this.setState({ [name]: value });
+	defineErrorType = (): boolean => {
+		const { hasError } = this.props;
+		return hasError && hasError.config.url.includes('login');
+	};
 
-	handleSubmit = e => {
+	handleChange = ({
+		target: { name, value },
+	}: ChangeEvent<HTMLInputElement>): void =>
+		this.setState({ [name]: value } as Pick<IState, keyof IState>);
+
+	handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
 		e.preventDefault();
 
 		this.props.onLogin({ ...this.state });
 		this.setState({ email: '', password: '' });
-	};
-
-	defineErrorType = () => {
-		const { hasError } = this.props;
-		return hasError && hasError.config.url.includes('login');
 	};
 
 	render() {
@@ -57,7 +61,7 @@ class LoginView extends Component {
 	}
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: IStoreState) => ({
 	hasError: authSelectors.hasError(state),
 });
 
@@ -65,4 +69,4 @@ const mapDispatchToProps = {
 	onLogin: authOperations.logIn,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginView);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

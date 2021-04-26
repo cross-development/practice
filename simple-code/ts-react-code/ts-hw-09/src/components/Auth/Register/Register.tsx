@@ -1,10 +1,17 @@
 //Core
-import React from 'react';
-import PropTypes from 'prop-types';
+import { ChangeEvent, FormEvent } from 'react';
 //Styles
 import styles from './Register.module.css';
 
-const Register = ({ name, email, password, onChange, onSubmit }) => (
+interface IProps {
+	name: string;
+	email: string;
+	password: string;
+	onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+	onSubmit: (e: FormEvent<HTMLFormElement>) => void;
+}
+
+const Register = ({ name, email, password, onChange, onSubmit }: IProps) => (
 	<form onSubmit={onSubmit} className={styles.form}>
 		<label className={styles.label}>
 			Name
@@ -50,13 +57,5 @@ const Register = ({ name, email, password, onChange, onSubmit }) => (
 		</button>
 	</form>
 );
-
-Register.propTypes = {
-	name: PropTypes.string.isRequired,
-	email: PropTypes.string.isRequired,
-	password: PropTypes.string.isRequired,
-	onChange: PropTypes.func.isRequired,
-	onSubmit: PropTypes.func.isRequired,
-};
 
 export default Register;

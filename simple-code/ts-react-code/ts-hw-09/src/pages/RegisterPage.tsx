@@ -1,42 +1,47 @@
 //Core
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { Component, ChangeEvent, FormEvent } from 'react';
 //Components
 import { Error } from 'components/Commons';
 import { Register } from 'components/Auth';
 //Redux
 import { connect } from 'react-redux';
 import { authOperations, authSelectors } from 'redux/auth';
+//Helpers
+import { IStoreState } from 'helpers/ts-helpers';
 
-class RegisterView extends Component {
-	static propTypes = {
-		onRegister: PropTypes.func.isRequired,
-		hasError: PropTypes.object,
-	};
+interface IProps {
+	hasError: any | null;
+	onRegister: ({ name, email, password }: IState) => void;
+}
 
-	static defaultProps = {
-		hasError: null,
-	};
+interface IState {
+	name: string;
+	email: string;
+	password: string;
+}
 
+class RegisterPage extends Component<IProps, IState> {
 	state = {
 		name: '',
 		email: '',
 		password: '',
 	};
 
-	handleChange = ({ target: { name, value } }) =>
-		this.setState({ [name]: value });
+	defineErrorType = (): boolean => {
+		const { hasError } = this.props;
+		return hasError && hasError.config.url.includes('signup');
+	};
 
-	handleSubmit = e => {
+	handleChange = ({
+		target: { name, value },
+	}: ChangeEvent<HTMLInputElement>): void =>
+		this.setState({ [name]: value } as Pick<IState, keyof IState>);
+
+	handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
 		e.preventDefault();
 
 		this.props.onRegister({ ...this.state });
 		this.setState({ name: '', email: '', password: '' });
-	};
-
-	defineErrorType = () => {
-		const { hasError } = this.props;
-		return hasError && hasError.config.url.includes('signup');
 	};
 
 	render() {
@@ -58,7 +63,7 @@ class RegisterView extends Component {
 	}
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: IStoreState) => ({
 	hasError: authSelectors.hasError(state),
 });
 
@@ -66,4 +71,4 @@ const mapDispatchToProps = {
 	onRegister: authOperations.register,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterView);
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterPage);

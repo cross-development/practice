@@ -1,13 +1,14 @@
 //Core
-import React from 'react';
-import PropTypes from 'prop-types';
+import { ReactNode } from 'react';
 //Styles
 import styles from './Section.module.css';
 
-const Section = ({ children }) => <section className={styles.section}>{children}</section>;
+interface IProps {
+	children: ReactNode;
+}
 
-Section.propTypes = {
-	children: PropTypes.node.isRequired,
-};
+const Section = ({ children }: IProps) => (
+	<section className={styles.section}>{children}</section>
+);
 
 export default Section;

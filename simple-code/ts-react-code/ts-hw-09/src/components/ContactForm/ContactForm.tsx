@@ -1,34 +1,45 @@
 //Core
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { Component, ChangeEvent, FormEvent } from 'react';
 //Components
 import { Notification } from 'components/Commons';
 //Redux
 import { connect } from 'react-redux';
 import { contactsOperations, contactsSelectors } from 'redux/contacts';
+//Helpers
+import { IStoreState, TContact } from 'helpers/ts-helpers';
 //Styles
 import styles from './ContactForm.module.css';
 import { CSSTransition } from 'react-transition-group';
 import fadeNotification from 'animation/fadeNotification.module.css';
 
-export class ContactForm extends Component {
-	static propTypes = {
-		onAddContact: PropTypes.func.isRequired,
-	};
+type TAddContact = { name: string; number: string };
+interface IProps {
+	contacts: TContact[];
+	onAddContact: ({ name, number }: TAddContact) => void;
+}
 
+interface IState {
+	name: string;
+	number: string;
+}
+
+export class ContactForm extends Component<IProps, IState> {
 	state = {
 		name: '',
 		number: '',
-		isNotice: false,
 	};
 
-	setNotificationTimeout = delay =>
-		setTimeout(() => this.setState({ isNotice: false }), delay);
+	private isNotice = false;
 
-	handleChange = ({ target: { name, value } }) =>
-		this.setState({ [name]: value });
+	setNotificationTimeout = (delay: number) =>
+		setTimeout(() => (this.isNotice = false), delay);
 
-	handleFormSubmit = e => {
+	handleChange = ({
+		target: { name, value },
+	}: ChangeEvent<HTMLInputElement>): void =>
+		this.setState({ [name]: value } as Pick<IState, keyof IState>);
+
+	handleFormSubmit = (e: FormEvent<HTMLFormElement>): void => {
 		e.preventDefault();
 
 		const { name, number } = this.state;
@@ -39,8 +50,9 @@ export class ContactForm extends Component {
 		);
 
 		if (isContactExists) {
-			this.setState({ name: '', number: '', isNotice: true });
-			return this.setNotificationTimeout(1000);
+			this.setState({ name: '', number: '' });
+			this.setNotificationTimeout(1000);
+			return;
 		}
 
 		onAddContact({ name, number });
@@ -48,12 +60,12 @@ export class ContactForm extends Component {
 	};
 
 	render() {
-		const { name, number, isNotice } = this.state;
+		const { name, number } = this.state;
 
 		return (
 			<>
 				<CSSTransition
-					in={isNotice}
+					in={this.isNotice}
 					classNames={fadeNotification}
 					timeout={250}
 					unmountOnExit
@@ -98,7 +110,7 @@ export class ContactForm extends Component {
 	}
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: IStoreState) => ({
 	contacts: contactsSelectors.getContacts(state),
 });
 

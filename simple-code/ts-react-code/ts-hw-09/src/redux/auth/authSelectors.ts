@@ -1,8 +1,11 @@
-const isAuthenticated = state => state.auth.token;
+//Helpers
+import { IStoreState } from 'helpers/ts-helpers';
 
-const getUserEmail = state => state.auth.user.email;
+const isAuthenticated = (state: IStoreState) => state.auth.token;
 
-const hasError = state => state.auth.error;
+const getUserEmail = (state: IStoreState) => state.auth.user.email;
+
+const hasError = (state: IStoreState) => state.auth.error;
 
 const authSelectors = {
 	isAuthenticated,

@@ -1,13 +1,14 @@
 //Core
-import React from 'react';
-import PropTypes from 'prop-types';
+import { ReactNode } from 'react';
 //Styles
 import styles from './Main.module.css';
 
-const Main = ({ children }) => <main className={styles.main}>{children}</main>;
+interface IProps {
+	children: ReactNode;
+}
 
-Main.propTypes = {
-	children: PropTypes.node,
-};
+const Main = ({ children }: IProps) => (
+	<main className={styles.main}>{children}</main>
+);
 
 export default Main;

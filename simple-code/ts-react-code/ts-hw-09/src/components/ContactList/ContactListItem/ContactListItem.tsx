@@ -1,13 +1,17 @@
-//Core
-import React from 'react';
-import PropTypes from 'prop-types';
 //Redux
 import { connect } from 'react-redux';
 import { contactsOperations } from 'redux/contacts';
 //Styles
 import styles from './ContactListItem.module.css';
 
-const ContactListItem = ({ name, number, onRemove }) => (
+interface IProps {
+	id: string;
+	name: string;
+	number: string;
+	onRemove: () => void;
+}
+
+const ContactListItem = ({ id, name, number, onRemove }: IProps) => (
 	<li className={styles.listItem}>
 		<p className={styles.contact}>
 			<span>{name}:</span> {number}
@@ -19,13 +23,9 @@ const ContactListItem = ({ name, number, onRemove }) => (
 	</li>
 );
 
-ContactListItem.propTypes = {
-	name: PropTypes.string.isRequired,
-	number: PropTypes.string.isRequired,
-	onRemove: PropTypes.func.isRequired,
-};
+type TOwnProps = { id: string };
 
-const mapDispatchToProps = (dispatch, { id }) => ({
+const mapDispatchToProps = (dispatch, { id }: TOwnProps) => ({
 	onRemove: () => dispatch(contactsOperations.removeContact(id)),
 });
 
