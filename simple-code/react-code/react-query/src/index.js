@@ -1,13 +1,32 @@
-import React from 'react';
+//Core
+import { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+//Components
+import App from 'components/App';
+//Packages
+import { QueryClientProvider, QueryClient } from 'react-query';
+//Router
+import { BrowserRouter as Router } from 'react-router-dom';
+//Utils
+import reportWebVitals from 'utils/reportWebVitals';
+//Styles
+import 'styles/index.css';
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import { ThemeProvider } from 'styled-components';
+import theme from '@rebass/preset';
+
+const queryClient = new QueryClient();
 
 ReactDOM.render(
-	<React.StrictMode>
-		<App />
-	</React.StrictMode>,
+	<StrictMode>
+		<QueryClientProvider client={queryClient}>
+			<ThemeProvider theme={theme}>
+				<Router>
+					<App />
+				</Router>
+			</ThemeProvider>
+		</QueryClientProvider>
+	</StrictMode>,
 	document.getElementById('root'),
 );
 
