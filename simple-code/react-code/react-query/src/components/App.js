@@ -11,16 +11,16 @@ const App = () => (
 		<NavBar />
 
 		<Switch>
-			<Route path="/" exact>
-				<BooksList />
-			</Route>
-
-			<Route path="/create-book/:id">
+			<Route path="/create-book">
 				<CreateBook />
 			</Route>
 
-			<Route path="/update-book">
+			<Route path="/update-book/:id">
 				<UpdateBook />
+			</Route>
+
+			<Route path="/">
+				<BooksList />
 			</Route>
 		</Switch>
 	</>

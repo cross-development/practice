@@ -14,8 +14,8 @@ const CreateBook = () => {
 
 	const { mutateAsync, isLoading } = useMutation(createBook);
 
-	const onSubmit = async data => {
-		await mutateAsync(data);
+	const onFormSubmit = async data => {
+		await mutateAsync({ ...data });
 		history.push('/');
 	};
 
@@ -23,7 +23,8 @@ const CreateBook = () => {
 		<Container>
 			<Box sx={{ py: 3 }}>
 				<Heading sx={{ marginBottom: 3 }}>Create New Book</Heading>
-				<BookForm onFormSubmit={onSubmit} isLoading={isLoading} />
+
+				<BookForm onFormSubmit={onFormSubmit} isLoading={isLoading} />
 			</Box>
 		</Container>
 	);

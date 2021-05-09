@@ -1,5 +1,8 @@
-const createBook = async data => {
-	const response = await fetch(`${process.env.API_SERVER}/books`, {
+//Settings
+const BASE_URL = 'http://localhost:4000';
+
+const createBook = async ({ ...data }) => {
+	const response = await fetch(`${BASE_URL}/books/`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify(data),
@@ -11,7 +14,7 @@ const createBook = async data => {
 };
 
 const getAllBooks = async () => {
-	const response = await fetch(`${process.env.API_SERVER}/books`);
+	const response = await fetch(`${BASE_URL}/books`);
 
 	if (!response.ok) throw new Error(response.json().message);
 
@@ -21,8 +24,7 @@ const getAllBooks = async () => {
 const getBook = async ({ queryKey }) => {
 	/* eslint-disable no-unused-vars */
 	const [_key, { id }] = queryKey;
-
-	const response = await fetch(`${process.env.API_SERVER}/books/${id}`);
+	const response = await fetch(`${BASE_URL}/books/${id}`);
 
 	if (!response.ok) throw new Error(response.json().message);
 
@@ -30,7 +32,7 @@ const getBook = async ({ queryKey }) => {
 };
 
 const updateBook = async ({ id, ...data }) => {
-	const response = await fetch(`${process.env.API_SERVER}/books/${id}`, {
+	const response = await fetch(`${BASE_URL}/books/${id}`, {
 		method: 'PUT',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify(data),
@@ -42,7 +44,7 @@ const updateBook = async ({ id, ...data }) => {
 };
 
 const removeBook = async id => {
-	const response = await fetch(`${process.env.API_SERVER}/books/${id}`, {
+	const response = await fetch(`${BASE_URL}/books/${id}`, {
 		method: 'DELETE',
 	});
 

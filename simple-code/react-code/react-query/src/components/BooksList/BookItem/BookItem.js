@@ -3,6 +3,7 @@ import { Loader } from 'components/Shared';
 //Router
 import { Link } from 'react-router-dom';
 //Packages
+import PropTypes from 'prop-types';
 import { useMutation, useQueryClient } from 'react-query';
 //Services
 import { removeBook } from 'services/api';
@@ -16,6 +17,7 @@ import {
 
 const BookItem = ({ id, title, author }) => {
 	const queryClient = useQueryClient();
+
 	const { mutateAsync, isLoading } = useMutation(removeBook);
 
 	const remove = async () => {
@@ -24,7 +26,7 @@ const BookItem = ({ id, title, author }) => {
 	};
 
 	return (
-		<Flex p={3} width="100%" alignItems="center">
+		<Flex key={id} p={3} width="100%" alignItems="center">
 			<Link component={StyledLink} to={`/update-book/${id}`} mr="auto">
 				{title}
 			</Link>
@@ -36,6 +38,12 @@ const BookItem = ({ id, title, author }) => {
 			</Button>
 		</Flex>
 	);
+};
+
+BookItem.propTypes = {
+	id: PropTypes.string.isRequired,
+	title: PropTypes.string.isRequired,
+	author: PropTypes.string.isRequired,
 };
 
 export default BookItem;

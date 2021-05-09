@@ -1,3 +1,5 @@
+//Packages
+import PropTypes from 'prop-types';
 //Components
 import { Container } from 'components/Shared';
 //Styles
@@ -10,5 +12,9 @@ const ErrorFallback = ({ error }) => (
 		</Flex>
 	</Container>
 );
+
+ErrorFallback.propTypes = {
+	error: PropTypes.instanceOf(Error),
+};
 
 export default ErrorFallback;
