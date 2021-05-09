@@ -15,7 +15,7 @@ import {
 	Link as StyledLink,
 } from 'rebass/styled-components';
 
-const BookItem = ({ id, title, author }) => {
+export const BookItem = ({ id, title, author }) => {
 	const queryClient = useQueryClient();
 
 	const { mutateAsync, isLoading } = useMutation(removeBook);
@@ -45,5 +45,3 @@ BookItem.propTypes = {
 	title: PropTypes.string.isRequired,
 	author: PropTypes.string.isRequired,
 };
-
-export default BookItem;

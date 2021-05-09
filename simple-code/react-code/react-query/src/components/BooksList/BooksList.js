@@ -1,5 +1,5 @@
 //Components
-import BookItem from './BookItem';
+import { BookItem } from './BookItem';
 import { Container, LoadingFallback, ErrorFallback } from '../Shared';
 //Packages
 import { useQuery } from 'react-query';
@@ -8,7 +8,7 @@ import { getAllBooks } from 'services/api';
 //Styles
 import { Flex } from 'rebass/styled-components';
 
-const BooksList = () => {
+export const BooksList = () => {
 	const { data, error, isLoading, isError } = useQuery('books', getAllBooks);
 
 	if (isLoading) return <LoadingFallback />;
@@ -25,5 +25,3 @@ const BooksList = () => {
 		</Container>
 	);
 };
-
-export default BooksList;

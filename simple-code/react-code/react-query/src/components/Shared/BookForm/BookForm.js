@@ -1,5 +1,5 @@
 //Components
-import Loader from '../Loader';
+import { Loader } from '../Loader';
 //Packages
 import PropTypes from 'prop-types';
 import { useForm, Controller } from 'react-hook-form';
@@ -7,7 +7,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { Box, Button } from 'rebass/styled-components';
 import { Label, Input } from '@rebass/forms/styled-components';
 
-const BookForm = ({ defaultValues, onFormSubmit, isLoading }) => {
+export const BookForm = ({ defaultValues, onFormSubmit, isLoading }) => {
 	const { control, handleSubmit } = useForm({ defaultValues });
 
 	const onSubmit = handleSubmit(data => onFormSubmit(data));
@@ -55,4 +55,4 @@ BookForm.propTypes = {
 	onFormSubmit: PropTypes.func.isRequired,
 };
 
-export default BookForm;
+// export default BookForm;

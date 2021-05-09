@@ -9,7 +9,7 @@ import { createBook } from 'services/api';
 //Styles
 import { Box, Heading } from 'rebass/styled-components';
 
-const CreateBook = () => {
+export const CreateBook = () => {
 	const history = useHistory();
 
 	const { mutateAsync, isLoading } = useMutation(createBook);
@@ -29,5 +29,3 @@ const CreateBook = () => {
 		</Container>
 	);
 };
-
-export default CreateBook;

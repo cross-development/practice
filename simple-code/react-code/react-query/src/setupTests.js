@@ -3,3 +3,19 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
+import { render } from '@testing-library/react';
+import { createMemoryHistory } from 'history';
+import { Router } from 'react-router-dom';
+
+export const renderWithRouter = (renderComponent, route) => {
+	const history = createMemoryHistory();
+
+	if (route) {
+		history.push(route);
+	}
+
+	return {
+		...render(<Router history={history}>{renderComponent()}</Router>),
+		history,
+	};
+};

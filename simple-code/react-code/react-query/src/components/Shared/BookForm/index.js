@@ -1,1 +1,1 @@
-export { default } from './BookForm';
+export * from './BookForm';

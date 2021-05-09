@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import Spinner from 'react-loader-spinner';
 
-const Loader = ({ type, color, height }) => (
+export const Loader = ({ type, color, height }) => (
 	<Spinner type={type} color={color} height={height} />
 );
 
@@ -17,5 +17,3 @@ Loader.propTypes = {
 	color: PropTypes.string,
 	height: PropTypes.number,
 };
-
-export default Loader;

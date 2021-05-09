@@ -7,23 +7,19 @@ import {
 } from 'components/Shared';
 //Router
 import { useParams, useHistory } from 'react-router-dom';
-//Packages
-import { useMutation, useQuery } from 'react-query';
-//Services
-import { getBook, updateBook } from 'services/api';
+//Custom Hooks
+import { useFetchBook } from './useFetchBook';
+import { useUpdateBook } from './useUpdateBook';
 //Styles
 import { Box, Heading } from 'rebass/styled-components';
 
-const UpdateBook = () => {
+export const UpdateBook = () => {
 	const { id } = useParams();
 	const history = useHistory();
 
-	const { data, error, isLoading, isError } = useQuery(
-		['book', { id }],
-		getBook,
-	);
+	const { data, error, isLoading, isError } = useFetchBook(id);
 
-	const { mutateAsync, isLoading: isMutating } = useMutation(updateBook);
+	const { mutateAsync, isMutating } = useUpdateBook();
 
 	const onFormSubmit = async data => {
 		await mutateAsync({ id, ...data });
@@ -48,5 +44,3 @@ const UpdateBook = () => {
 		</Container>
 	);
 };
-
-export default UpdateBook;
