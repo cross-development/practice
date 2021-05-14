@@ -21,7 +21,7 @@ const port = process.env.PORT || 4000;
 
 app.db = db;
 
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:3000' }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
@@ -34,7 +34,7 @@ const options = {
 			version: '1.0.0',
 			description: 'This is a simple Library CRUD API.',
 		},
-		servers: [{ url: 'http://localhost:3000' }],
+		servers: [{ url: 'http://localhost:4000' }],
 	},
 	apis: ['./routes/*.js'],
 };
